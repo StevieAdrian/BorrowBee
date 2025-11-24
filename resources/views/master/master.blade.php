@@ -11,7 +11,9 @@
 </head>
 
 <body>
-    {{-- @include('master.navbar') --}}
+    @if (!request()->routeIs(['login*', 'register*']))
+        @include('master.navbar')
+    @endif
     @if (session('error'))
         @include('components.toastr', ['type' => 'error', 'message' => session('error')])
     @endif
@@ -21,9 +23,9 @@
     <main class="flex-grow-1 d-flex flex-column {{ request()->routeIs(['login', 'register']) ? '' : 'mt-5' }}">
         @yield('content')
     </main>
-    {{-- @if (!request()->routeIs(['login', 'register']))
+    @if (!request()->routeIs(['login*', 'register*']))
         @include('master.footer')
-    @endif --}}
+    @endif
     @yield('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
