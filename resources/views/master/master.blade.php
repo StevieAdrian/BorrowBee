@@ -11,14 +11,29 @@
 </head>
 
 <body>
-    {{-- @include('components.navbar') --}}
+    {{-- @include('master.navbar') --}}
+    @if (session('error'))
+        @include('components.toastr', ['type' => 'error', 'message' => session('error')])
+    @endif
+    @if (session('success'))
+        @include('components.toastr', ['type' => 'success', 'message' => session('success')])
+    @endif
     <main class="flex-grow-1 d-flex flex-column {{ request()->routeIs(['login', 'register']) ? '' : 'mt-5' }}">
         @yield('content')
     </main>
     {{-- @if (!request()->routeIs(['login', 'register']))
-        @include('components.footer')
+        @include('master.footer')
     @endif --}}
     @yield('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+            toastElList.forEach(function(toastEl) {
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        });
+    </script>
     <script src="{{ asset('bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
