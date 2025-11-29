@@ -29,9 +29,7 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return back()->withErrors([
-                'login' => 'Incorrect email or password.',
-            ])->withInput();
+            return back()->with('error', 'Incorrect email or password.')->withInput();
         }
 
         $request->session()->regenerate();
