@@ -1,4 +1,9 @@
 @extends('master.master')
+
+@section('custom-css')
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endsection
+
 @section('content')
     <div class="overlay"></div>
     <div class="container-fluid h-100 d-flex align-items-center vh-100">

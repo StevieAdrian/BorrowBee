@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>BorrowBee</title>
     <link rel="stylesheet" href="{{ asset('bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    @yield('custom-css')
 </head>
 
 <body>
