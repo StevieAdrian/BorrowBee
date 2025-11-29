@@ -1,0 +1,90 @@
+body {
+    background: url('/assets/auth-background.jpg') no-repeat center center/cover;
+    height: 100vh;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.logo-bee {
+    position: relative;
+    z-index: 10;
+}
+
+.logo-bee img {
+    width: 150px;
+    height: auto;
+}
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 40px 35px;
+    width: 450px;
+}
+
+.btn-yellow {
+    background-color: #f8d568;
+    font-weight: 600;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.btn-yellow:hover {
+    background-color: #fedc8c;
+}
+
+.form-label {
+    color: white;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 38px;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.login-left-text {
+    position: relative;
+    z-index: 10;
+    color: white;
+}
+
+.login-left-text h1 {
+    font-size: 60px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.login-left-text p {
+    font-size: 18px;
+    width: 80%;
+    margin-top: 15px;
+}
+
+.glass-box {
+    max-width: 420px;
+}
+
+@media (max-width: 768px) {
+    .login-left-text {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .login-left-text p {
+        width: 100%;
+    }
+
+    .glass-box {
+        width: 100% !important;
+    }
+}
