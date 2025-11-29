@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-0">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="{{ asset('assets/borrowbee-logo-2.png') }}" alt="logo" width="80" class="me-2 mt-2 align-self-center">
+            <span class="fw-semibold">BorrowBee</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="#">My Books</a>
+                </li>
+
+                <li class="nav-item dropdown mx-2">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">
+                        English
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">English</a></li>
+                        <li><a class="dropdown-item" href="#">Indonesia</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item ms-3">
+                    <a href="#" class="d-flex align-items-center">
+                        <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
