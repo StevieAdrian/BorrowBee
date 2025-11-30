@@ -13,7 +13,7 @@ class BookController extends Controller
     //
     public function index()
     {
-        $books = Book::with(['category', 'author'])->get();
+        $books = Book::with(['categories', 'authors'])->get();
         return view('admin.books.index', compact('books'));
     }
 
@@ -29,51 +29,63 @@ class BookController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'author_id' => 'required|exists:authors,id',
+            'category_ids' => 'required|array|min:1',
+            'category_ids.*' => 'exists:categories,id',
+            'author_ids' => 'required|array|min:1',
+            'author_ids.*' => 'exists:authors,id',
             'price' => 'nullable|numeric',
             'cover_image' => 'nullable|image',
+            'description' => 'nullable|string',
         ]);
 
-        $data = $request->only(['title', 'category_id', 'author_id', 'price']);
+        $data = $request->only(['title', 'price', 'description']);
         $data['is_available'] = true;
 
         if ($request->hasFile('cover_image')) {
             $data['cover_image'] = $request->file('cover_image')->store('covers', 'public');
         }
 
-        Book::create($data);
+        $book = Book::create($data);
+        $book->categories()->attach($request->category_ids);
+        $book->authors()->attach($request->author_ids);
 
         return redirect()->route('books.index')->with('success', 'Book created.');
     }
 
     public function edit($id)
     {
-        $book = Book::findOrFail($id);
+        $book = Book::with(['categories', 'authors'])->findOrFail($id);
         $categories = Category::all();
         $authors = Author::all();
 
-        return view('admin.books.edit', compact('book', 'categories', 'authors'));
+        $selectedCategories = $book->categories()->modelKeys();
+        $selectedAuthors = $book->authors()->modelKeys();
+
+        return view('admin.books.edit', compact('book', 'categories', 'authors', 'selectedCategories', 'selectedAuthors'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'author_id' => 'required|exists:authors,id',
+            'category_ids' => 'required|array|min:1',
+            'category_ids.*' => 'exists:categories,id',
+            'author_ids' => 'required|array|min:1',
+            'author_ids.*' => 'exists:authors,id',
             'price' => 'nullable|numeric',
-            'cover_image' => 'nullable|image',
+            'cover_image' => 'nullable|image', 
+            'description' => 'nullable|string',
         ]);
 
         $book = Book::findOrFail($id);
-        $data = $request->only(['title', 'category_id', 'author_id', 'price']);
-
+        $data = $request->only(['title', 'price', 'description']);
         if ($request->hasFile('cover_image')) {
             $data['cover_image'] = $request->file('cover_image')->store('covers', 'public');
         }
 
         $book->update($data);
+        $book->categories()->sync($request->category_ids);
+        $book->authors()->sync($request->author_ids);
 
         return redirect()->route('books.index')->with('success', 'Book updated.');
     }
