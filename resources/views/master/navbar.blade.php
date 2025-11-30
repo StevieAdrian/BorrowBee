@@ -33,13 +33,22 @@
                     </ul>
                 </li>
 
-                <li class="nav-item ms-3">
-                    <a href="#" class="d-flex align-items-center">
+                <li class="nav-item ms-3 dropdown">
+                    <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
                         <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
                     </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">History</a></li>
+                        <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout</a>
+                    </ul>
                 </li>
 
             </ul>
         </div>
     </div>
 </nav>
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+    @csrf
+</form>

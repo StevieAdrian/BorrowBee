@@ -7,7 +7,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/register', [AuthController::class, 'registerForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
