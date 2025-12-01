@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\UserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -21,4 +22,9 @@ Route::middleware('auth.custom')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('authors', AuthorController::class);
     Route::resource('books', BookController::class);
+});
+
+Route::middleware('auth.custom')->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
 });
