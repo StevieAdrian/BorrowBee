@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
+use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -16,6 +17,8 @@ Route::get('/login', [AuthController::class, 'loginForm'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::resource('categories', CategoryController::class);
-Route::resource('authors', AuthorController::class);
-Route::resource('books', BookController::class);
+Route::middleware('auth.custom')->group(function () {
+    Route::resource('categories', CategoryController::class);
+    Route::resource('authors', AuthorController::class);
+    Route::resource('books', BookController::class);
+});
