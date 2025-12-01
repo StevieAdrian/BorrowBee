@@ -34,4 +34,10 @@ class HomeController extends Controller
 
         return view('home', compact('books', 'categories'));
     }
+
+    public function show($id)
+    {
+        $book = Book::findOrFail($id);  
+        return view('book-detail', compact('book'));
+    }
 }
