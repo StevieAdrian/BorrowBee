@@ -28,3 +28,5 @@ Route::middleware('auth.custom')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
 });
+
+Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
