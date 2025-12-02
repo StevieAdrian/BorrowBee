@@ -8,6 +8,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -30,3 +31,6 @@ Route::middleware('auth.custom')->group(function () {
 });
 
 Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
+
+Route::get('/otp', [AuthController::class, 'otpForm'])->name('otp.form');
+Route::post('/otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
