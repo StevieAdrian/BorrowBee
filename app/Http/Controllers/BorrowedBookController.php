@@ -63,4 +63,14 @@ class BorrowedBookController extends Controller
 
         return redirect()->back()->with('success', 'Book returned successfully.');
     }
+
+    public function myBooks()
+    {
+        $user = Auth::user();
+
+        $borrowedBooks = BorrowedBook::with('book')->where('user_id', $user->id)->whereNull('returned_at')->get();
+
+        return view('books.my-books', compact('borrowedBooks'));
+    }
+
 }
