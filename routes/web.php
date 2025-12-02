@@ -9,7 +9,9 @@ use App\Http\Controllers\BorrowedBookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\IsLoginMiddleware;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -34,3 +36,9 @@ Route::middleware([IsLoginMiddleware::class])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
 });
+
+Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
+
+Route::get('/otp', [AuthController::class, 'otpForm'])->name('otp.form');
+Route::post('/otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
+
