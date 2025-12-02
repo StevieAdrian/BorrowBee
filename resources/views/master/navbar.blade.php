@@ -20,7 +20,7 @@
                 </li>
 
                 <li class="nav-item mx-2">
-                    <a class="nav-link" href="#">My Books</a>
+                    <a class="nav-link" href="{{ route('mybooks') }}">My Books</a>
                 </li>
 
                 <li class="nav-item dropdown mx-2">

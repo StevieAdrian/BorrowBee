@@ -35,6 +35,7 @@ Route::middleware([IsLoginMiddleware::class])->group(function () {
     Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
+    Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
 });
 
 Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
