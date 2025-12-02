@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Author;
+use App\Models\BorrowedBook;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -98,7 +100,19 @@ class BookController extends Controller
 
     public function show($id)
     {
-        $book = Book::with(['category', 'author'])->findOrFail($id);
-        return view('book-detail', compact('book'));
+        $book = Book::with(['categories', 'authors'])->findOrFail($id);
+        $user = Auth::user();
+
+        
+        if($user){
+            $alreadyBorrowed = BorrowedBook::where('user_id', $user->id)
+                                ->where('book_id', $book->id)
+                                ->whereNull('returned_at')
+                                ->first();
+        }
+        else{
+            $alreadyBorrowed = null;
+        }
+        return view('book-detail', compact('book', 'alreadyBorrowed'));
     }
 }

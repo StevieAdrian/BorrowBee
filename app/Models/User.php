@@ -21,7 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
+        'role_id',
+        'quota'
     ];
 
     /**
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function borrowedBooks()
+    {
+        return $this->hasMany(BorrowedBook::class);
     }
 }
