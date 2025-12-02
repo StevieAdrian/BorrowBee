@@ -41,4 +41,8 @@ Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
 
 Route::get('/otp', [AuthController::class, 'otpForm'])->name('otp.form');
 Route::post('/otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
+Route::get('/otp/resend', function () {
+    return back();
+})->name('otp.resend');
+
 
