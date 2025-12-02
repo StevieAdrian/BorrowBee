@@ -40,8 +40,13 @@
                     </td>
 
                     <td>{{ $book->title }}</td>
-                    <td>{{ $book->category->name }}</td>
-                    <td>{{ $book->author->name }}</td>
+                    @foreach ($book->categories as $categories)
+                        <td>{{ $categories->name }}</td>
+                    @endforeach
+
+                    @foreach ($book->authors as $authors)
+                        <td>{{ $authors->name }}</td>
+                    @endforeach
 
                     <td>Rp {{ number_format($book->price, 0, ',', '.') }}</td>
 

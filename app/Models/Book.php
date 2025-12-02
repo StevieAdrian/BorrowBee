@@ -2,28 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    //
+    use HasFactory;
     protected $fillable = [
-        'title', 'category_id', 'author_id',
-        'is_available', 'rating', 'cover_image', 'price'
+        // 'title', 'category_id', 'author_id',
+        'title',
+        'is_available', 'rating', 'cover_image', 'price', 'description'
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'book_categories');
     }
 
-    public function author()
+    public function authors()
     {
-        return $this->belongsTo(Author::class);
+        return $this->belongsToMany(Author::class, 'book_authors');
     }
-
+    
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function borrowedBooks()
+    {
+        return $this->hasMany(BorrowedBook::class);
     }
 }
