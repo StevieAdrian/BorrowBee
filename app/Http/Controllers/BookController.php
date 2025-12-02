@@ -95,4 +95,10 @@ class BookController extends Controller
         Book::findOrFail($id)->delete();
         return redirect()->route('books.index')->with('success', 'Book deleted.');
     }
+
+    public function show($id)
+    {
+        $book = Book::with(['category', 'author'])->findOrFail($id);
+        return view('book-detail', compact('book'));
+    }
 }

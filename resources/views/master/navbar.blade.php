@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-0">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('assets/borrowbee-logo-2.png') }}" alt="logo" width="80" class="me-2 mt-2 align-self-center">
             <span class="fw-semibold">BorrowBee</span>
         </a>
@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
                 <li class="nav-item mx-2">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="{{ route('home') }}">Home</a>
                 </li>
 
                 <li class="nav-item mx-2">
@@ -33,13 +33,22 @@
                     </ul>
                 </li>
 
-                <li class="nav-item ms-3">
-                    <a href="#" class="d-flex align-items-center">
+                <li class="nav-item ms-3 dropdown">
+                    <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
                         <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
                     </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">History</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
+                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout</a>
+                    </ul>
                 </li>
 
             </ul>
         </div>
     </div>
 </nav>
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+    @csrf
+</form>
