@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    @if (!request()->routeIs(['login*', 'register*']))
+    @if (!request()->routeIs(['login*', 'register*', 'otp*']))
         @include('master.navbar')
     @endif
     @if (session('error'))
@@ -20,10 +20,10 @@
     @if (session('success'))
         @include('components.toastr', ['type' => 'success', 'message' => session('success')])
     @endif
-    <main class="flex-grow-1 d-flex flex-column {{ request()->routeIs(['login', 'register']) ? '' : 'mt-5' }}">
+    <main class="flex-grow-1 d-flex flex-column {{ request()->routeIs(['login', 'register', 'otp*']) ? '' : 'mt-5' }}">
         @yield('content')
     </main>
-    @if (!request()->routeIs(['login*', 'register*']))
+    @if (!request()->routeIs(['login*', 'register*', 'otp*']))
         @include('master.footer')
     @endif
     @yield('scripts')
