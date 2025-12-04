@@ -33,6 +33,11 @@
                     </ul>
                 </li>
 
+
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="{{ route('history') }}">History</a>
+                </li>
+
                 <li class="nav-item ms-3 dropdown">
                     <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
                         <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">

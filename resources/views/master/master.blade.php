@@ -37,6 +37,7 @@
         });
     </script>
     <script src="{{ asset('bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
+    @yield('custom-js')
 </body>
 
 </html>

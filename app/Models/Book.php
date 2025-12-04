@@ -33,4 +33,9 @@ class Book extends Model
     {
         return $this->hasMany(BorrowedBook::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
