@@ -16,7 +16,23 @@ class ReviewController extends Controller
 
     function showReview($id){ 
         $book = Book::with(['categories', 'authors', 'reviews.user'])->withAvg('reviews', 'rating')->findOrFail($id);
-        return view('review.index', compact('book'));
+
+        $user = Auth::user();
+        $alreadyBought = false;
+        $alreadyReviewed = false;
+
+        if($user){
+            $alreadyBought = $book->transactions()
+                                ->where('user_id', $user->id)
+                                ->where('status', 'PAID')
+                                ->exists();
+
+            $alreadyReviewed = $book->reviews()
+                                ->where('user_id', $user->id)
+                                ->exists();
+        }
+
+        return view('review.index', compact('book', 'alreadyBought', 'alreadyReviewed'));
     }
 
     function review(Request $request, $id)
@@ -48,4 +64,6 @@ class ReviewController extends Controller
 
         return redirect()->route('review.show', $book->id)->with('success', 'Review submitted.');
     }
+
+
 }

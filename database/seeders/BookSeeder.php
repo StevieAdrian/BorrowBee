@@ -40,7 +40,7 @@ class BookSeeder extends Seeder
             Book::create([
                 'title' => $bookTitle,
                 'description' => fake('id_ID')->paragraph(),
-                'price' => fake('id_ID')->randomFloat(2, 50000, 100000),
+                'price' => (int) fake()->randomFloat(10000, 100000),
             ]);
         }
     }

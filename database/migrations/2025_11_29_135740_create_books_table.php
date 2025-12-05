@@ -21,7 +21,7 @@ return new class extends Migration
             // $table->tinyInteger('rating')->default(0);
             // $table->foreignId('review_id')->nullable()->constrained('reviews')->onDelete('set null');
             $table->string('cover_image')->nullable();
-            $table->decimal('price', 8, 2);
+            $table->decimal('price', 12, 0);
             $table->timestamps();
         });
     }

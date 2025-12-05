@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Author;
 use App\Models\BorrowedBook;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
@@ -100,19 +101,50 @@ class BookController extends Controller
 
     public function show($id)
     {
-        $book = Book::with(['categories', 'authors'])->findOrFail($id);
+        $book = Book::with(['categories', 'authors'])->withAvg('reviews', 'rating')->findOrFail($id);
         $user = Auth::user();
 
-        
+        $alreadyBorrowed = null;
+        $alreadyBought = false;
+        $alreadyReviewed = false;
+
         if($user){
             $alreadyBorrowed = BorrowedBook::where('user_id', $user->id)
                                 ->where('book_id', $book->id)
                                 ->whereNull('returned_at')
                                 ->first();
+
+            $alreadyBought = Transaction::where('user_id', $user->id)
+                                ->where('book_id', $book->id)
+                                ->where('status', 'PAID')
+                                ->exists();
+           $alreadyReviewed = $book->reviews()
+                                ->where('user_id', $user->id)
+                                ->exists();
         }
         else{
             $alreadyBorrowed = null;
         }
-        return view('book-detail', compact('book', 'alreadyBorrowed'));
+        return view('book-detail', compact('book', 'alreadyBorrowed', 'alreadyBought', 'alreadyReviewed'));
+    }
+
+    function showHistory(){ 
+        $user = Auth::user();
+
+        $transactions = collect();
+        $borrowedBooks = collect();
+
+        if($user){
+            $transactions = Transaction::with('book')
+                        ->where('user_id', $user->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+            $borrowedBooks = BorrowedBook::with('book')
+                        ->where('user_id', $user->id)
+                        ->orderBy('borrowed_at', 'desc')
+                        ->get();
+        }
+        return view('books.history', compact('transactions', 'borrowedBooks'));
     }
 }

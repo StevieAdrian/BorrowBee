@@ -7,10 +7,13 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowedBookController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\IsLoginMiddleware;
+
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,13 +36,26 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 Route::middleware([IsLoginMiddleware::class])->group(function () {
     Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
     Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
+    Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
-    Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
+    Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');
+    Route::get('/transactions/success', [TransactionController::class, 'success'])->name('transactions.success');
+
 });
 
 Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
 
 Route::get('/otp', [AuthController::class, 'otpForm'])->name('otp.form');
 Route::post('/otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
+
+
+
+
+
+Route::get('/reviews/{id}', [ReviewController::class, 'review'])->name('review.create');
+Route::post('/reviews/{id}/store', [ReviewController::class, 'store'])->name('review.store');
+Route::get('/reviews-list', [ReviewController::class, 'index'])->name('review.list');
+Route::get('/reviews-show/{id}', [ReviewController::class, 'showReview'])->name('review.show');
+Route::get('/history', [BookController::class, 'showHistory'])->name('history');
 
