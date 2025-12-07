@@ -1,49 +1,135 @@
 @extends('master.master')
 
 @section('content')
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4 text-center mb-4">
-            <img src="{{ asset('assets/default-pp.png') }}" alt="Profile Picture" class="rounded-circle mb-3" width="150">
-            <h3>{{ $user->name }}</h3>
-            <p>{{ $user->email }}</p>
-            <a href="#" class="btn btn-secondary">Change Profile Picture</a>
-        </div>
 
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header" style="background-color: #FFB933; color: #333;">
-                    <h4>Edit Profile</h4>
-                </div>
-                <div class="card-body">
-                    <!-- Profile Edit Form -->
-                    <form method="POST" action="{{ route('profile.update') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}">
-                        </div>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}">
-                        </div>
+<div class="profile-wrapper">
+  <div class="card">
+    <div class="row-flex">
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Change Password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="**************">
-                        </div>
+      <aside class="menu">
+        <h2>Settings</h2>
+        <a href="{{ route('profile') }}" class="menu-link active">
+          <iconify-icon icon="mdi:account-box-outline" width="20"></iconify-icon>
+          <span>Profile</span>
+        </a>
+        <a href="#" class="menu-link">
+          <iconify-icon icon="mdi:lock-outline" width="20"></iconify-icon>
+          <span>Privacy</span>
+        </a>
+      </aside>
 
-                        <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="**************">
-                        </div>
+      <main class="content">
+        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" id="profileForm">
+          @csrf
 
-                        <button type="submit" class="btn" style="background-color: #FFB933; color: #333;">Save Changes</button>
-                    </form>
-                </div>
+          <div style="margin-bottom:24px">
+            <div class="label">Profile Picture</div>
+            <div style="display:flex;align-items:center;gap:28px;margin-top:8px">
+              <img id="avatarPreview"
+                src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('assets/default-pfp.jpg') }}"
+                class="avatar">
+
+              <div style="display:flex;gap:12px;align-items:center">
+                <button type="button" id="changeBtn" class="btn btn-change">Change Picture</button>
+                <button type="button" id="deleteBtn" class="btn btn-delete">Delete Picture</button>
+              </div>
             </div>
-        </div>
+
+            <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display:none">
+            <input type="hidden" name="delete_avatar" id="deleteAvatar" value="0">
+          </div>
+
+          <div style="margin-top:26px">
+            <div class="label">Name</div>
+            <div class="input-wrapper" style="margin-top:6px">
+              <input id="nameInput" name="name" type="text"
+                     value="{{ old('name', $user->name) }}" class="input-pill" readonly>
+              <iconify-icon id="editName" class="pencil" icon="mdi:pencil" width="18"></iconify-icon>
+            </div>
+          </div>
+
+          <div style="margin-top:22px">
+            <div class="label">E-mail</div>
+            <div class="input-wrapper" style="margin-top:6px">
+              <input id="emailInput" name="email" type="email"
+                     value="{{ old('email', $user->email) }}" class="input-pill" readonly>
+              <iconify-icon id="editEmail" class="pencil" icon="mdi:pencil" width="18"></iconify-icon>
+            </div>
+          </div>
+
+          <div style="margin-top:22px">
+            <button type="submit" id="saveBtn" class="save-btn" disabled>Save Changes</button>
+          </div>
+
+        </form>
+      </main>
+
     </div>
+  </div>
 </div>
+
+<script>
+(function(){
+  const avatarInput = document.getElementById('avatarInput')
+  const avatarPreview = document.getElementById('avatarPreview')
+  const changeBtn = document.getElementById('changeBtn')
+  const deleteBtn = document.getElementById('deleteBtn')
+
+  const editName = document.getElementById('editName')
+  const editEmail = document.getElementById('editEmail')
+
+  const nameInput = document.getElementById('nameInput')
+  const emailInput = document.getElementById('emailInput')
+
+  const saveBtn = document.getElementById('saveBtn')
+  const deleteAvatarInput = document.getElementById('deleteAvatar')
+
+  function enableSave(){
+    saveBtn.disabled = false
+    saveBtn.classList.add('enabled')
+  }
+
+  editName.addEventListener('click', () => {
+    nameInput.readOnly = false
+    nameInput.focus()
+    const len = nameInput.value.length
+    nameInput.setSelectionRange(len, len)
+    enableSave()
+})
+
+editEmail.addEventListener('click', () => {
+    emailInput.readOnly = false
+    emailInput.focus()
+    const len = emailInput.value.length
+    emailInput.setSelectionRange(len, len)
+    enableSave()
+})
+
+  changeBtn.addEventListener('click', ()=> avatarInput.click())
+
+  avatarInput.addEventListener('change', e=>{
+    const file = e.target.files[0]
+    if(!file) return
+    const reader = new FileReader()
+    reader.onload = ev => avatarPreview.src = ev.target.result
+    reader.readAsDataURL(file)
+    deleteAvatarInput.value = 0
+    enableSave()
+  })
+
+  deleteBtn.addEventListener('click', ()=>{
+    deleteAvatarInput.value = 1
+    avatarPreview.src = "{{ asset('assets/default-pfp.jpg') }}"
+    avatarInput.value = ""
+    enableSave()
+  })
+
+  nameInput.addEventListener('input', enableSave)
+  emailInput.addEventListener('input', enableSave)
+})();
+</script>
+
 @endsection
