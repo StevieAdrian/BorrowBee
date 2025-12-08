@@ -15,34 +15,54 @@
 
         <div class="mb-3">
             <label class="form-label">Category</label>
-            <select name="category_id" class="form-select">
-                <option value="">Choose category...</option>
+            <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
                 @foreach($categories as $c)
-                    <option value="{{ $c->id }}" {{ old('category_id') == $c->id ? 'selected' : '' }}>
-                        {{ $c->name }}
-                    </option>
+                    <div class="form-check">
+                        <input class="form-check-input"
+                            type="checkbox"
+                            name="category_ids[]"
+                            value="{{ $c->id }}"
+                            id="cat{{ $c->id }}"
+                            {{ in_array($c->id, old('category_ids', [])) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="cat{{ $c->id }}">
+                            {{ $c->name }}
+                        </label>
+                    </div>
                 @endforeach
-            </select>
-            @error('category_id') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+            @error('category_ids') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label class="form-label">Author</label>
-            <select name="author_id" class="form-select">
-                <option value="">Choose author...</option>
+            <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
                 @foreach($authors as $a)
-                    <option value="{{ $a->id }}" {{ old('author_id') == $a->id ? 'selected' : '' }}>
-                        {{ $a->name }}
-                    </option>
+                    <div class="form-check">
+                        <input class="form-check-input"
+                            type="checkbox"
+                            name="author_ids[]"
+                            value="{{ $a->id }}"
+                            id="author{{ $a->id }}"
+                            {{ in_array($a->id, old('author_ids', [])) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="author{{ $a->id }}">
+                            {{ $a->name }}
+                        </label>
+                    </div>
                 @endforeach
-            </select>
-            @error('author_id') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+            @error('author_ids') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label class="form-label">Price (Rp)</label>
-            <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price', 0) }}">
+            <input type="number" name="price" class="form-control" value="{{ old('price', 0) }}">
             @error('price') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control">{{ old('description') }}</textarea>
+            @error('description') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
