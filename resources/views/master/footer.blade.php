@@ -18,7 +18,7 @@
                 <ul class="list-unstyled">
                     <li><a href="/" class="text-black text-decoration-none text-start">Home</a></li>
                     <li><a href="/about" class="text-black text-decoration-none">About Us</a></li>
-                    <li><a href="/books" class="text-black text-decoration-none">My Books</a></li>
+                    <li><a href="/my-books" class="text-black text-decoration-none">My Books</a></li>
                     <li><a href="/contact" class="text-black text-decoration-none">Contact Us</a></li>
                 </ul>
             </div>
