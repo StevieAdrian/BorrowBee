@@ -10,6 +10,7 @@ use App\Models\Author;
 use App\Models\BorrowedBook;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -42,10 +43,17 @@ class BookController extends Controller
         ]);
 
         $data = $request->only(['title', 'price', 'description']);
+        // dd('store book', $data);
         $data['is_available'] = true;
 
+        // dd(config('cloudinary'));
+
         if ($request->hasFile('cover_image')) {
-            $data['cover_image'] = $request->file('cover_image')->store('covers', 'public');
+            $file = $request->file('cover_image');
+            $path = Storage::disk('cloudinary')->put('book_covers', $file);
+            $url = Storage::disk('cloudinary')->url($path);
+
+            $data['cover_image'] = $url;
         }
 
         $book = Book::create($data);

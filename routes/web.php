@@ -25,12 +25,12 @@ Route::get('/login', [AuthController::class, 'loginForm'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::resource('books', BookController::class)->only(['index', 'show']);
+Route::resource('books', BookController::class)->only(['index', 'show', 'create']);
 
 Route::middleware([AdminMiddleware::class])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('authors', AuthorController::class);
-    Route::resource('books', BookController::class)->except(['index', 'show']);
+    Route::resource('books', BookController::class)->except(['index', 'show', 'create']);
 });
 
 Route::middleware([IsLoginMiddleware::class])->group(function () {
@@ -54,12 +54,9 @@ Route::get('/otp/resend', function () {
 
 
 
-
-
-
+Route::post('/books', [BookController::class, 'store'])->name('books.store');
 Route::get('/reviews/{id}', [ReviewController::class, 'review'])->name('review.create');
 Route::post('/reviews/{id}/store', [ReviewController::class, 'store'])->name('review.store');
 Route::get('/reviews-list', [ReviewController::class, 'index'])->name('review.list');
 Route::get('/reviews-show/{id}', [ReviewController::class, 'showReview'])->name('review.show');
 Route::get('/history', [BookController::class, 'showHistory'])->name('history');
-
