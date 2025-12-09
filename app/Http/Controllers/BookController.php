@@ -40,21 +40,30 @@ class BookController extends Controller
             'price' => 'nullable|numeric',
             'cover_image' => 'nullable|image',
             'description' => 'nullable|string',
+            'pdf_file' => 'required|mimes:pdf|max:20480',
         ]);
 
-        $data = $request->only(['title', 'price', 'description']);
+        $data = $request->only(['title', 'price', 'description', 'pdf_file']);
         // dd('store book', $data);
         $data['is_available'] = true;
 
         // dd(config('cloudinary'));
 
-        if ($request->hasFile('cover_image')) {
-            $file = $request->file('cover_image');
-            $path = Storage::disk('cloudinary')->put('book_covers', $file);
-            $url = Storage::disk('cloudinary')->url($path);
+        // if ($request->hasFile('cover_image')) {
+        //     $file = $request->file('cover_image');
+        //     $path = Storage::disk('cloudinary')->put('book_covers', $file);
+        //     $url = Storage::disk('cloudinary')->url($path);
 
-            $data['cover_image'] = $url;
+        //     $data['cover_image'] = $url;
+        // }
+
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image'] = $request->file('cover_image')->store('books', 'public'); 
         }
+
+        if ($request->hasFile('pdf_file')) {
+            $data['pdf_file'] = $request->file('pdf_file')->store('pdf', 'public');
+        }   
 
         $book = Book::create($data);
         $book->categories()->attach($request->category_ids);
@@ -69,8 +78,8 @@ class BookController extends Controller
         $categories = Category::all();
         $authors = Author::all();
 
-        $selectedCategories = $book->categories()->modelKeys();
-        $selectedAuthors = $book->authors()->modelKeys();
+        $selectedCategories = $book->categories->modelKeys();
+        $selectedAuthors = $book->authors->modelKeys();
 
         return view('admin.books.edit', compact('book', 'categories', 'authors', 'selectedCategories', 'selectedAuthors'));
     }
@@ -86,13 +95,28 @@ class BookController extends Controller
             'price' => 'nullable|numeric',
             'cover_image' => 'nullable|image', 
             'description' => 'nullable|string',
+            'pdf_file' => 'nullable|mimes:pdf|max:20480',
+            'is_available' => 'nullable|boolean',
         ]);
 
         $book = Book::findOrFail($id);
-        $data = $request->only(['title', 'price', 'description']);
+        $data = $request->only(['title', 'price', 'description', 'pdf_file', 'is_available']);
         if ($request->hasFile('cover_image')) {
-            $data['cover_image'] = $request->file('cover_image')->store('covers', 'public');
+            if ($book->cover_image && Storage::disk('public')->exists($book->cover_image)) {
+                Storage::disk('public')->delete($book->cover_image);
+            }
+            
+            $data['cover_image'] = $request->file('cover_image')->store('books', 'public');
         }
+
+        if ($request->hasFile('pdf_file')) {
+            if ($book->pdf_file && Storage::disk('public')->exists($book->pdf_file)) {
+                Storage::disk('public')->delete($book->pdf_file);
+            }
+
+            $data['pdf_file'] = $request->file('pdf_file')->store('pdf', 'public');
+        }
+
 
         $book->update($data);
         $book->categories()->sync($request->category_ids);
@@ -134,5 +158,87 @@ class BookController extends Controller
             $alreadyBorrowed = null;
         }
         return view('book-detail', compact('book', 'alreadyBorrowed', 'alreadyBought', 'alreadyReviewed'));
+    }
+
+    public function accessPdf(Book $book)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $isPaid = Transaction::where('user_id', $user->id)
+            ->where('book_id', $book->id)
+            ->where('status', 'PAID')
+            ->exists();
+
+        $isBorrowed = BorrowedBook::where('user_id', $user->id)
+            ->where('book_id', $book->id)
+            ->whereNull('returned_at')
+            ->exists();
+
+        if (!$isPaid && !$isBorrowed) {
+            return redirect()->route('book.show', $book->id)
+                ->with('error', 'Anda tidak memiliki akses ke buku ini.');
+        }
+
+        // Path file PDF
+        $filePath = $book->pdf_file;
+
+        if (!Storage::disk('public')->exists($filePath)) {
+            $searchedPath = Storage::disk('public')->path($filePath);
+            return redirect()->route('book.show', $book->id)
+                ->with('error', "File PDF tidak ditemukan. (Mencari di: {$searchedPath})");
+        }
+
+        if ($isPaid) {
+            return Storage::disk('public')->response(
+                $filePath,
+                $book->title . '.pdf',
+                [
+                    'Content-Type'        => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="' . $book->title . '.pdf"',
+                ]
+            );
+        }
+
+        $pdfUrl = asset('storage/' . $filePath);
+
+        return view('books.pdf-viewer', [
+            'bookTitle' => $book->title,
+            'pdfUrl'    => $pdfUrl,
+        ]);
+    }
+
+
+
+    public function viewOnly(Book $book)
+    {
+        $user = Auth::user(); 
+        
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $isBorrowed = BorrowedBook::where('user_id', $user->id)
+                                    ->where('book_id', $book->id)
+                                    ->whereNull('returned_at')
+                                    ->exists();
+        
+        $isPaid = Transaction::where('user_id', $user->id)
+                                ->where('book_id', $book->id)
+                                ->where('status', 'PAID')
+                                ->exists();
+
+        if (!$isBorrowed || $isPaid) { 
+            return redirect()->route('book.show', $book->id)
+                            ->with('error', 'Access denied. This book is either not borrowed or has been purchased.');
+        }
+
+        $pdfUrl = asset('storage/' . $book->pdf_file);
+        $bookTitle = $book->title;
+
+        return view('books.pdf-viewer', compact('pdfUrl', 'bookTitle'));
+
     }
 }

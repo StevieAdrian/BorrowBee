@@ -40,8 +40,8 @@
                             <td>{{ $book->id }}</td>
 
                             <td>
-                                @if($book->cover_image)
-                                    <img src="{{ $book->cover_image }}" width="60" height="80" class="rounded">
+                                @if($book->cover_url)
+                                    <img src="{{ $book->cover_url }}" width="60" height="80" class="rounded">
                                 @else
                                     <span class="text-muted">No Image</span>
                                 @endif

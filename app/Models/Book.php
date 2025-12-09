@@ -11,7 +11,7 @@ class Book extends Model
     protected $fillable = [
         // 'title', 'category_id', 'author_id',
         'title',
-        'is_available', 'rating', 'cover_image', 'price', 'description'
+        'is_available', 'rating', 'cover_image', 'price', 'description', 'pdf_file'
     ];
 
     public function categories()
@@ -38,4 +38,16 @@ class Book extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function getCoverUrlAttribute()
+    {
+        $assetPath = public_path('assets/books/' . $this->cover_image);
+
+        if (file_exists($assetPath)) {
+            return asset('assets/books/' . $this->cover_image);
+        }
+
+        return asset('storage/' . $this->cover_image);
+    }
+
 }

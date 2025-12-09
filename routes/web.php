@@ -96,3 +96,8 @@ Route::middleware(['locale'])->group(function () {
 });
 
 Route::get('/localization/{loc}', [LocalizationController::class, 'localization'])->name('loc');
+
+Route::get('/books/{book}/access-pdf', [BookController::class, 'accessPdf'])
+     ->name('book.access_pdf');
+
+Route::get('/books/{book}/view-only', [BookController::class, 'viewOnly'])->middleware('auth')->name('book.view_only');

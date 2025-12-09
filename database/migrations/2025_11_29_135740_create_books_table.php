@@ -14,13 +14,9 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            // $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            // $table->foreignId('author_id')->constrained('authors')->onDelete('cascade');
-            $table->boolean('is_available')->default(true);
             $table->text('description')->nullable();
-            // $table->tinyInteger('rating')->default(0);
-            // $table->foreignId('review_id')->nullable()->constrained('reviews')->onDelete('set null');
             $table->string('cover_image')->nullable();
+            $table->string('pdf_file');
             $table->decimal('price', 12, 0);
             $table->timestamps();
         });

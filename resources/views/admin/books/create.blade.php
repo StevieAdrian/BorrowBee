@@ -71,6 +71,12 @@
             @error('cover_image') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
+        <div class="mb-3">
+            <label class="form-label">PDF File</label>
+            <input type="file" name="pdf_file" class="form-control">
+            @error('pdf_file') <small class="text-danger">{{ $message }}</small>@enderror
+        </div>
+
         <button class="btn btn-primary mt-2">Save</button>
         <a href="{{ route('books.index') }}" class="btn btn-secondary mt-2">Back</a>
     </form>
