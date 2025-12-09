@@ -33,19 +33,20 @@
                     </ul>
                 </li>
 
-
-                <li class="nav-item mx-2">
-                    <a class="nav-link" href="{{ route('history') }}">History</a>
-                </li>
-
                 <li class="nav-item ms-3 dropdown">
                     <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
                         <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">History</a></li>
                         <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
-                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout</a>
+                        @guest
+                            <a class="dropdown-item" href="{{ route('login') }}"> Login</a>
+                        @endguest
+                        @auth
+                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout</a>
+                        @endauth
+
+
                     </ul>
                 </li>
 

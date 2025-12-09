@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BorrowedBook;
+use App\Models\Review;
+use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -68,9 +70,21 @@ class BorrowedBookController extends Controller
     {
         $user = Auth::user();
 
-        $borrowedBooks = BorrowedBook::with('book')->where('user_id', $user->id)->whereNull('returned_at')->get();
+        $transactions = Transaction::with('book')
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('books.my-books', compact('borrowedBooks'));
+        $borrowedBooks = BorrowedBook::with('book')
+            ->where('user_id', $user->id)
+            ->orderBy('borrowed_at', 'desc')
+            ->get();
+
+        $alreadyReviewed = Review::where('user_id', $user->id)
+            ->pluck('book_id')         
+            ->toArray();     
+
+        return view('books.my-books', compact('transactions', 'borrowedBooks', 'alreadyReviewed'));
     }
 
 }
