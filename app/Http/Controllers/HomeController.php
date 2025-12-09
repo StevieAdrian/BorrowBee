@@ -37,7 +37,8 @@ class HomeController extends Controller
 
     public function show($id)
     {
-        $book = Book::findOrFail($id);  
+        $book = Book::with(['reviews.user'])->findOrFail($id);
+
         return view('book-detail', compact('book'));
     }
 }
