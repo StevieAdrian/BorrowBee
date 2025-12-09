@@ -56,7 +56,7 @@
         <div class="col-md-3">
             <div class="card h-100 shadow-sm">
                 {{-- tar ganti cloud storage plingan --}}
-                <img src="{{ asset('storage/' . $book->cover_image) }}" class="card-img-top" style="height: 300px; object-fit: cover">
+                <img src="{{ asset('assets/books/' . $book->cover_image) }}" class="card-img-top" style="height: 300px; object-fit: cover">
 
                 <div class="card-body">
                     <h5 class="card-title">{{ $book->title }}</h5>
