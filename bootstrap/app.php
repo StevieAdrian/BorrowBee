@@ -15,7 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'auth.custom' => \App\Http\Middleware\AdminMiddleware::class,
+            'locale' => \App\Http\Middleware\LocalizationMiddleware::class,
         ]);
+
+        $middleware->append(\App\Http\Middleware\LocalizationMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
