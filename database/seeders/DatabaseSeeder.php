@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             BookAuthorSeeder::class,
             BookCategorySeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

@@ -30,7 +30,16 @@
                 @if (!Request::is('/'))
                     <li class="nav-item ms-3 dropdown">
                         <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
-                            <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
+                            @auth
+                                @if (Auth::user()->avatar)
+                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" width="60" height="60" style="object-fit: cover;" class="rounded-circle" alt="profile">
+                                @else
+                                    <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
+                                @endif
+                            @endauth
+                            @guest
+                                <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
+                            @endguest
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>

@@ -13,6 +13,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $avatars = [ 
+            'avatar_0.png',
+            'avatar_1.jpg',
+            'avatar_2.jpeg',
+            'avatar_3.jpg',
+        ];
+         
         $passwordTono = 'tono123';
         $passwordRendy = 'rendy123';
         $passwordStevie = 'stevie23';
@@ -22,24 +29,28 @@ class UserSeeder extends Seeder
                 'name' => 'stevie', 
                 'email' => 'stevie@example.com', 
                 'password' => bcrypt('Stevie123'), 
+                'avatar' => $avatars[array_rand($avatars)],
                 'role_id' => 1,
             ],
             [
                 'name' => 'Tono',
                 'email' => 'tono@gmail.com',
                 'password' => bcrypt($passwordTono),
+                'avatar' => $avatars[array_rand($avatars)],
                 'role_id' => 2,
             ],
             [
                 'name' => 'Rendy',
                 'email' => 'rendy@gmail.com',
                 'password' => bcrypt($passwordRendy),
+                'avatar' => $avatars[array_rand($avatars)],
                 'role_id' => 2,
             ],
             [
                 'name' => 'Stevie',
                 'email' => 'adrianstevie0@gmail.com',
                 'password' => bcrypt($passwordStevie),
+                'avatar' => $avatars[array_rand($avatars)],
                 'role_id' => 2,
             ]
         ]);
