@@ -29,11 +29,32 @@
             </p>
             {{-- lupa nambahin kolom sinopsis jir --}}
             <p><strong>Synopsis:</strong> {{ $book->synopsis }}</p>
-           <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between">
                 <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
                 <a href="{{ route('review.show', $book->id) }}" class="btn btn-warning">See Review</a>
                 
-                @if(!$alreadyBought && !$alreadyBorrowed)
+                @if($alreadyBought)
+                    <a href="{{ route('book.access_pdf', $book) }}" class="btn btn-success">
+                        <iconify-icon icon="mdi:book-open-variant"></iconify-icon>
+                        Read / Download PDF
+                    </a>
+
+                    @if(!$alreadyReviewed)
+                        <a href="{{ route('review.create', $book->id) }}" class="btn btn-success">
+                            Make a Review
+                        </a>
+                    @endif
+                @elseif($alreadyBorrowed)
+                    <a href="{{ route('book.access_pdf', $book) }}" target="_blank" class="btn btn-primary">
+                        Read Book Now
+                    </a>
+
+                    <form action="{{ route('return.book') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+                        <button type="submit" class="btn btn-danger">Return</button>
+                    </form>
+                @else
                     <form action="{{ route('borrow.book') }}" method="POST">
                         @csrf
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
@@ -45,19 +66,16 @@
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
                         <button type="submit" class="btn btn-primary">Buy</button>
                     </form>
-                @elseif($alreadyBorrowed)
-                    <form action="{{ route('return.book') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="book_id" value="{{ $book->id }}">
-                        <button type="submit" class="btn btn-danger">Return</button>
-                    </form>
-                @elseif($alreadyBought && !$alreadyReviewed)
-                    <a href="{{ route('review.create', $book->id) }}" class="btn btn-success">Make a Review</a>
                 @endif
 
-
-            </div>
-
+                @auth
+                    @if(Auth::user()->role_id === 1)
+                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning">
+                            Edit Book
+                        </a>
+                    @endif
+                @endauth
+            </div> 
         </div>
     </div>
 </div>

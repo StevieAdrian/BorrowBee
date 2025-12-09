@@ -24,6 +24,7 @@ class BookSeeder extends Seeder
                     Physicist and author Mario Livio brilliantly explores mathematical ideas from Pythagoras to the present day as he shows us how intriguing questions and ingenious answers have led to ever deeper insights into our world. This fascinating book will interest anyone curious about the human mind, the scientific world, and the relationship between them.",
                 'price' => 45000,
                 'cover_image' => 'is-god-a-mathematician.jpg',
+                'pdf_file' => 'pdf/book_1.pdf',
             ],
             [
                 'title' => 'Don Quixote',
@@ -33,6 +34,7 @@ class BookSeeder extends Seeder
                     With its experimental form and literary playfulness, Don Quixote has been generally recognized as the first modern novel. The book has been enormously influential on a host of writers, from Fielding and Sterne to Flaubert, Dickens, Melville, and Faulkner, who reread it once a year, \"just as some people read the Bible.\"",
                 'price' => 60000,
                 'cover_image' => 'don-quixote.jpg',
+                'pdf_file' => 'pdf/book_2.pdf',
             ]
         ];
 

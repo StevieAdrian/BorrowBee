@@ -16,6 +16,29 @@
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
 
+                    @auth
+                        @if(Auth::user()->role_id === 1)
+                            <li class="nav-item dropdown mx-2">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    Book
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('books.index') }}">
+                                            Books
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('books.create') }}">
+                                            Create Books
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    @endauth
+
+
                     <li class="nav-item mx-2">
                         <a class="nav-link" href="#">About Us</a>
                     </li>
