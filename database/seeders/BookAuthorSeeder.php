@@ -14,12 +14,18 @@ class BookAuthorSeeder extends Seeder
      */
     public function run(): void
     {
-        $books = Book::all();
-        $authors = Author::all();
+        $bookAuthorMap = [
+            'Is God a Mathematician?' => ['Mario Livio'],
+            'Don Quixote' => ['Miguel de Cervantes'],
+        ];
 
-        foreach ($books as $book) {
-            $randomAuthors = $authors->random(rand(1, 2))->modelKeys();
-            $book->authors()->attach($randomAuthors);
+        foreach ($bookAuthorMap as $title => $authorNames) {
+            $book = Book::where('title', $title)->first();
+            if ($book) {
+                $authorIds = Author::whereIn('name', $authorNames)->pluck('id')->toArray();
+
+                $book->authors()->sync($authorIds);
+            }
         }
     }
 }
