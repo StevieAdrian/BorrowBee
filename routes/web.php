@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\IsLoginMiddleware;
 
 Route::middleware(['locale'])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-
+    Route::get('/', function () {
+        return view('landing');
+    })->name('landing');
+    
     Route::get('/register', [AuthController::class, 'registerForm'])->name('register.form');
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     
@@ -34,6 +36,7 @@ Route::middleware(['locale'])->group(function () {
     });
     
     Route::middleware([IsLoginMiddleware::class])->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
         Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
         Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
         Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
