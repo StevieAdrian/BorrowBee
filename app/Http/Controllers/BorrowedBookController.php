@@ -42,7 +42,7 @@ class BorrowedBookController extends Controller
             $idUser->save();
         }
 
-        return redirect('/')->with('success', 'Book borrowed successfully.');
+        return redirect('home')->with('success', 'Book borrowed successfully.');
     }
 
     function returnBook(Request $request)

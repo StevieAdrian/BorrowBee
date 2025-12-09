@@ -15,23 +15,33 @@ class UserSeeder extends Seeder
     {
         $passwordTono = 'tono123';
         $passwordRendy = 'rendy123';
+        $passwordStevie = 'stevie23';
 
         User::insert([
-            ['name' => 'stevie', 'email' => 'stevie@example.com', 'password' => bcrypt('Stevie123'), 'role_id' => 1],
-        ]);
-
-        User::create([
-            'name' => 'Tono',
-            'email' => 'tono@gmail.com',
-            'password' => bcrypt($passwordTono),
-            'role_id' => 2,
-        ]);
-
-        User::create([
-            'name' => 'Rendy',
-            'email' => 'rendy@gmail.com',
-            'password' => bcrypt($passwordRendy),
-            'role_id' => 2,
+            [
+                'name' => 'stevie', 
+                'email' => 'stevie@example.com', 
+                'password' => bcrypt('Stevie123'), 
+                'role_id' => 1,
+            ],
+            [
+                'name' => 'Tono',
+                'email' => 'tono@gmail.com',
+                'password' => bcrypt($passwordTono),
+                'role_id' => 2,
+            ],
+            [
+                'name' => 'Rendy',
+                'email' => 'rendy@gmail.com',
+                'password' => bcrypt($passwordRendy),
+                'role_id' => 2,
+            ],
+            [
+                'name' => 'Stevie',
+                'email' => 'adrianstevie0@gmail.com',
+                'password' => bcrypt($passwordStevie),
+                'role_id' => 2,
+            ]
         ]);
     }
 }

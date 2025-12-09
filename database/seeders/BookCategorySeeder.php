@@ -14,13 +14,20 @@ class BookCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $books = Book::all();
-        $categories = Category::all();
+        $categories = Category::all()->keyBy('name');
 
+        $bookCategoryMap = [
+            'Is God a Mathematician?' => ['Science', 'Philosophy'],
+            'Don Quixote' => ['Adventure', 'Classic'],
+        ];
 
-        foreach ($books as $book) {
-            $randomCategories = $categories->random(rand(1, 3))->modelKeys();
-            $book->categories()->attach($randomCategories);
+        foreach ($bookCategoryMap as $title => $categoryNames) {
+            $book = Book::where('title', $title)->first();
+            if ($book) {
+                $categoryIds = Category::whereIn('name', $categoryNames)->pluck('id')->toArray();
+
+                $book->categories()->sync($categoryIds);
+            }
         }
     }
 }

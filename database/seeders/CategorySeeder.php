@@ -14,11 +14,15 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
+            'Adventure',
+            'Classic',
             'Fiction',
             'Non-Fiction',
+            'Science',
             'Science Fiction',
             'Fantasy',
             'Biography',
+            'Philosophy',
             'History',
             'Children',
             'Mystery',

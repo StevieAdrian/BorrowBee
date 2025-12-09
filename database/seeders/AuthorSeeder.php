@@ -14,5 +14,9 @@ class AuthorSeeder extends Seeder
     public function run(): void
     {
         Author::factory()->count(30)->create();
+        Author::insert([
+            ['name' => 'Mario Livio'],
+            ['name' => 'Miguel de Cervantes'],
+        ]);
     }
 }
