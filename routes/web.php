@@ -17,7 +17,7 @@ use App\Http\Middleware\IsLoginMiddleware;
 
 Route::middleware(['locale'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    
+
     Route::get('/register', [AuthController::class, 'registerForm'])->name('register.form');
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     
@@ -58,7 +58,6 @@ Route::middleware(['locale'])->group(function () {
     Route::post('/reviews/{id}/store', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/reviews-list', [ReviewController::class, 'index'])->name('review.list');
     Route::get('/reviews-show/{id}', [ReviewController::class, 'showReview'])->name('review.show');
-    Route::get('/history', [BookController::class, 'showHistory'])->name('history');
 
     Route::middleware([IsLoginMiddleware::class])->group(function () {
       Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
