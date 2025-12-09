@@ -9,11 +9,30 @@
     <div class="row">
         <div class="col-md-4 text-center">
             <div class="cover-container">
-                <img src="{{ asset('assets/books/' . $book->cover_image) }}" class="img-fluid shadow-sm rounded mb-3" alt="{{ $book->title }}">
+                <img src="{{ $book->cover_url}}" class="img-fluid shadow-sm rounded mb-3" alt="{{ $book->title }}">
             </div>
 
             <div class="d-grid gap-2">
-                @if(!$alreadyBought && !$alreadyBorrowed)
+                @if($alreadyBought)
+                    <a href="{{ route('book.access_pdf', $book) }}" class="big-action-btn big-borrow">
+                        <iconify-icon icon="mdi:book-open-variant"></iconify-icon>
+                        Read / Download PDF
+                    </a>
+
+                    @if(!$alreadyReviewed)
+                       <a href="{{ route('review.create', $book->id) }}" class="btn btn-info w-100">Make a Review</a>
+                    @endif
+                @elseif($alreadyBorrowed)
+                    <a href="{{ route('book.access_pdf', $book) }}" target="_blank" class="big-action-btn big-borrow">
+                        Read Book Now
+                    </a>
+
+                    <form action="{{ route('return.book') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+                        <button type="submit" class="big-action-btn big-return">Return</button>
+                    </form>
+                @else
                     <form action="{{ route('borrow.book') }}" method="POST">
                         @csrf
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
@@ -25,21 +44,26 @@
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
                         <button type="submit" class="big-action-btn big-buy">Buy</button>
                     </form>
-                @elseif($alreadyBorrowed)
-                    <form action="{{ route('return.book') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="book_id" value="{{ $book->id }}">
-                        <button type="submit" class="big-action-btn big-return">Return</button>
-                    </form>
-
-                @elseif($alreadyBought && !$alreadyReviewed)
-                    <a href="{{ route('review.create', $book->id) }}" class="btn btn-info w-100">Make a Review</a>
                 @endif
+
+                @auth
+                    @if(Auth::user()->role_id === 1)
+                        <a href="{{ route('books.edit', $book->id) }}" class="big-action-btn big-borrow">
+                            Edit Book
+                        </a>
+                    @endif
+                @endauth
             </div>
         </div>
 
         <div class="col-md-8">
-            <h1 class="fw-bold">{{ $book->title }}</h1>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h1 class="fw-bold m-0">{{ $book->title }}</h1>
+
+                <a href="{{ route('home') }}" class="btn btn-secondary">
+                    Back
+                </a>
+            </div>
 
             <div class="d-flex align-items-center mb-2">
                 <span class="star-average me-2" style="--rating: {{ $book->reviews_avg_rating ?? 0 }};">
@@ -84,11 +108,6 @@
                 @endif
             </div>
 
-            <div class="d-flex gap-2 my-4 flex-wrap">
-                <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
-                <a href="{{ route('review.show', $book->id) }}" class="btn btn-warning">See Reviews</a>
-            </div>
-
             <hr>
             <p class="text-muted">
                 <strong>Pages:</strong> {{ $book->pages ?? 320 }}<br>
@@ -118,6 +137,59 @@
             </div>
 
             <hr class="my-4">
+            <div class="reviews-section mt-5">
+                <h3 class="fw-bold mb-4">Reviews</h3>
+                @forelse ($book->reviews as $rev)
+                    <div class="review-box d-flex mb-5">
+                        <div class="review-user text-center me-4">
+                            <img src="{{ asset('assets/default-avatar.png') }}" class="review-avatar mb-2" alt="User">
+                            <div class="fw-bold">{{ $rev->user->name }}</div>
+
+                            <div class="text-muted small">
+                                {{ $rev->user->reviews()->count() }} reviews<br>
+                                {{ $rev->user->followers_count ?? 0 }} followers
+                            </div>
+
+                            <button class="btn btn-dark btn-sm mt-2">Follow</button>
+                        </div>
+
+                        <div class="review-content flex-grow-1">
+                            <div class="mb-1">
+                                <span class="star-rating" style="--rating: {{ $rev->rating }};">★★★★★</span>
+                                <small class="text-muted ms-2">{{ $rev->created_at->format('F d, Y') }}</small>
+                            </div>
+
+                            @php
+                                $text = $rev->content;
+                            @endphp
+
+                            <div class="review-text short-text {{ strlen($text) > 300 ? 'fade-bottom' : '' }}">
+                                {{ Str::limit($text, 300) }}
+                            </div>
+
+                            <div class="review-text full-text d-none">
+                                {{ $text }}
+                            </div>
+
+                            @if(strlen($text) > 300)
+                                <a href="javascript:void(0)" class="review-toggle toggle-link d-inline-flex align-items-center mt-1">
+                                    <span class="label-text">Show more</span>
+                                    <span class="ms-1 arrow">&#9662;</span>
+                                </a>
+                            @endif
+
+
+                            <div class="mt-3 small text-muted">
+                                <strong>1,457 likes · 216 comments</strong>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+                @empty
+                    <p class="text-muted">No reviews yet.</p>
+                @endforelse
+            </div>
         </div>
     </div>
 </div>
@@ -139,6 +211,33 @@
             this.textContent = "Show more";
         }
     });
+
+    document.querySelectorAll('.review-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const parent = btn.closest('.review-content');
+        const shortText = parent.querySelector('.short-text');
+        const fullText = parent.querySelector('.full-text');
+
+        const label = btn.querySelector('.label-text');
+        const arrow = btn.querySelector('.arrow');
+
+        if (fullText.classList.contains('d-none')) {
+            fullText.classList.remove('d-none');
+            shortText.classList.add('d-none');
+            shortText.classList.remove('fade-bottom');
+
+            label.textContent = "Show less";
+            arrow.style.transform = "rotate(180deg)";
+        } else {
+            fullText.classList.add('d-none');
+            shortText.classList.remove('d-none');
+            shortText.classList.add('fade-bottom');
+
+            label.textContent = "Show more";
+            arrow.style.transform = "rotate(0deg)";
+        }
+    });
+});
 
 </script>
 @endsection
