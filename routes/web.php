@@ -59,7 +59,38 @@ Route::middleware(['locale'])->group(function () {
     Route::get('/reviews-list', [ReviewController::class, 'index'])->name('review.list');
     Route::get('/reviews-show/{id}', [ReviewController::class, 'showReview'])->name('review.show');
     Route::get('/history', [BookController::class, 'showHistory'])->name('history');
-});
 
+    Route::middleware([IsLoginMiddleware::class])->group(function () {
+      Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
+      Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
+      Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
+
+      Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+      Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
+
+      Route::get('/privacy', [UserController::class, 'privacy'])->name('privacy');
+      Route::post('/privacy', [UserController::class, 'updatePrivacy'])->name('privacy.update');
+
+      Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');
+      Route::get('/transactions/success', [TransactionController::class, 'success'])->name('transactions.success');
+    });
+
+  Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
+
+  Route::get('/otp', [AuthController::class, 'otpForm'])->name('otp.form');
+  Route::post('/otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
+  Route::get('/otp/resend', function () {
+      return back();
+  })->name('otp.resend');
+
+
+
+  Route::post('/books', [BookController::class, 'store'])->name('books.store');
+  Route::get('/reviews/{id}', [ReviewController::class, 'review'])->name('review.create');
+  Route::post('/reviews/{id}/store', [ReviewController::class, 'store'])->name('review.store');
+  Route::get('/reviews-list', [ReviewController::class, 'index'])->name('review.list');
+  Route::get('/reviews-show/{id}', [ReviewController::class, 'showReview'])->name('review.show');
+
+});
 
 Route::get('/localization/{loc}', [LocalizationController::class, 'localization'])->name('loc');
