@@ -23,17 +23,8 @@
                     <a class="nav-link" href="{{ route('mybooks') }}">My Books</a>
                 </li>
 
-                <li class="nav-item dropdown mx-2">
-                    <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">
-                        English
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">English</a></li>
-                        <li><a class="dropdown-item" href="#">Indonesia</a></li>
-                    </ul>
-                </li>
-
-
+                @include('master.lang.localization')
+                
                 <li class="nav-item mx-2">
                     <a class="nav-link" href="{{ route('history') }}">History</a>
                 </li>
