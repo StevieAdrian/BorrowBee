@@ -135,24 +135,4 @@ class BookController extends Controller
         }
         return view('book-detail', compact('book', 'alreadyBorrowed', 'alreadyBought', 'alreadyReviewed'));
     }
-
-    function showHistory(){ 
-        $user = Auth::user();
-
-        $transactions = collect();
-        $borrowedBooks = collect();
-
-        if($user){
-            $transactions = Transaction::with('book')
-                        ->where('user_id', $user->id)
-                        ->orderBy('created_at', 'desc')
-                        ->get();
-
-            $borrowedBooks = BorrowedBook::with('book')
-                        ->where('user_id', $user->id)
-                        ->orderBy('borrowed_at', 'desc')
-                        ->get();
-        }
-        return view('books.history', compact('transactions', 'borrowedBooks'));
-    }
 }

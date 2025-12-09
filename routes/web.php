@@ -59,4 +59,3 @@ Route::get('/reviews/{id}', [ReviewController::class, 'review'])->name('review.c
 Route::post('/reviews/{id}/store', [ReviewController::class, 'store'])->name('review.store');
 Route::get('/reviews-list', [ReviewController::class, 'index'])->name('review.list');
 Route::get('/reviews-show/{id}', [ReviewController::class, 'showReview'])->name('review.show');
-Route::get('/history', [BookController::class, 'showHistory'])->name('history');

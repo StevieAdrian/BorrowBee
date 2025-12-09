@@ -42,7 +42,40 @@
                 </table>
             @endif
         </div>
-        {{-- purchased books nnt bikin dsn --}}
+    </div>
+    <div class="card shadow-sm mt-4">
+        <div class="card-header" style="background:#FFB933;color:white;">
+            Purchased Books
+        </div>
+        <div class="card-body">
+            @if($transactions->isEmpty())
+                <p class="text-muted">You haven't purchased anything.</p>
+            @else
+                <table class="table table-bordered">
+                    <thead>
+                        <tr style="background:#FFF3CD;">
+                            <th>Title</th>
+                            <th>Purchased At</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($transactions as $transaction)
+                        <tr>
+                            <td>{{ $transaction->book->title }}</td>
+                            <td>{{ $transaction->created_at }}</td>
+                            <td>
+                                <a href="{{ route('books.show', $transaction->book->id) }}" class="btn btn-sm" style="background:#FFB933;color:white;">Details</a>
+                                @if(!in_array($transaction->book->id, $alreadyReviewed))
+                                    <a href="{{ route('review.create', $transaction->book->id) }}" class="btn btn-sm btn-success"> Review </a>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+        </div>
     </div>
 </div>
 

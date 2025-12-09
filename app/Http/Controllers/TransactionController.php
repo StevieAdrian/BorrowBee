@@ -20,6 +20,18 @@ class TransactionController extends Controller
         $book = Book::findOrFail($request->book_id);
         $amount = max(10000, (int) $book->price);
 
+        $pendingStatus = Transaction::where('user_id', $user->id)
+            ->where('book_id', $book->id)
+            ->where('status', 'PENDING')
+            ->first();
+
+        if ($pendingStatus) {
+            if (!empty($pendingStatus->snap_token)) {
+                return redirect("https://app.sandbox.midtrans.com/snap/v4/vtweb/" . $pendingStatus->snap_token);
+            }
+            $pendingStatus->delete();
+        }
+
         $transaction = Transaction::create([
             'user_id' => $user->id,
             'book_id' => $book->id,
@@ -51,10 +63,6 @@ class TransactionController extends Controller
                     'name' => $book->title,
                 ]
             ],
-            'enabled_payments' => ['bank_transfer'],
-            'bank_transfer' => [
-                'bank' => 'bca', 
-            ],
             'callbacks' => [
                 'finish' => route('transactions.success'),
             ],
@@ -72,36 +80,25 @@ class TransactionController extends Controller
 
     public function notification(Request $request)
     {
-        Log::info('Midtrans Notification received.');
-        
-        // 1. Inisialisasi Midtrans Config
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = config('midtrans.is_production');
         
         try {
-            // 2. Dapatkan objek notifikasi dari library Midtrans
             $notif = new Notification();
         } catch (\Exception $e) {
-            // Jika ada error saat inisialisasi notifikasi (misal masalah payload)
-            Log::error('Midtrans Notification Initialization Error: ' . $e->getMessage());
-            return response('Error', 500); // Harus cepat merespon
+            return response('Error', 500); 
         }
-
 
         $orderId = $notif->order_id;
         $transactionStatus = $notif->transaction_status; 
         $fraudStatus = $notif->fraud_status;
 
-        // 3. Cari Transaksi
         $transaction = Transaction::where('invoice_id', $orderId)->first();
 
         if (!$transaction) {
-            Log::warning("Transaction not found for order ID: {$orderId}");
-            // Midtrans tidak perlu mencoba lagi jika order ID tidak ditemukan
             return response('Transaction not found', 404); 
         }
 
-        // 4. Logika Update Status
         try {
             if ($transactionStatus == 'capture') {
                 if ($fraudStatus == 'accept') {
@@ -115,17 +112,11 @@ class TransactionController extends Controller
                 $transaction->status = 'FAILED';
             }
             
-            // Simpan perubahan ke database
             $transaction->save();
-            Log::info("Transaction {$orderId} status updated to: {$transaction->status}");
 
         } catch (\Exception $e) {
-            Log::error("Database Update Error for Order ID {$orderId}: " . $e->getMessage());
-            // Jika ada error database, Midtrans akan mencoba lagi (retry)
             return response('Database Error', 500);
         }
-
-        // 5. Respon WAJIB 200 OK
         return response('OK', 200);
     }
 
