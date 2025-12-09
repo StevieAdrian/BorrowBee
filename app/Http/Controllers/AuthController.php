@@ -98,7 +98,7 @@ class AuthController extends Controller
         session()->forget(['register_data', 'otp_code', 'otp_expires_at']);
         Auth::login($user);
 
-        return redirect('/')->with('success', 'Register successful!');
+        return redirect('home')->with('success', 'Register successful!');
     }
 
     public function logout(Request $request)

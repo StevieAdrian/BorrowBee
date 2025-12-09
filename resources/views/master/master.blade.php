@@ -20,10 +20,10 @@
     @if (session('success'))
         @include('components.toastr', ['type' => 'success', 'message' => session('success')])
     @endif
-    <main class="flex-grow-1 d-flex flex-column {{ request()->routeIs(['login', 'register', 'otp*']) ? '' : 'mt-5' }}">
+    <main class="flex-grow-1 d-flex flex-column {{ request()->routeIs(['login', 'register', 'otp*'])}}">
         @yield('content')
     </main>
-    @if (!request()->routeIs(['login*', 'register*', 'otp*']))
+    @if (!request()->routeIs(['login*', 'register*', 'otp*', 'landing']))
         @include('master.footer')
     @endif
     @yield('scripts')
