@@ -1,12 +1,8 @@
-/* public/css/buy-book.css */
-
-/* --- General Structure & Container --- */
 .buy-book-container {
     padding-top: 3rem;
     padding-bottom: 3rem;
 }
 
-/* --- Left Column: Book Content --- */
 .book-buy-details {
     display: flex;
     gap: 20px;
@@ -14,7 +10,7 @@
 
 .cover-image-container {
     flex-shrink: 0;
-    width: 200px; /* Width based on typical book cover size */
+    width: 200px; 
 }
 
 .cover-image-buy {
@@ -44,9 +40,9 @@
 .book-info-section .price {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #dc3545; /* Using a dominant color for price */
+    color: #dc3545; 
     margin-bottom: 1.5rem;
-    display: none; /* Price is shown in the summary card on the screenshot, hiding here */
+    display: none; 
 }
 
 .description-section strong {
@@ -55,7 +51,7 @@
 
 .personal-use-note {
     font-size: 0.85rem;
-    color: #dc3545; /* Red color for warning/restriction */
+    color: #dc3545; 
     border-left: 3px solid #dc3545;
     padding-left: 10px;
     margin-top: 1.5rem;
@@ -63,7 +59,6 @@
 }
 
 
-/* --- Right Column: Cost Summary Card --- */
 .cost-summary-card {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -96,9 +91,7 @@
     color: #333;
 }
 
-/* --- Buttons --- */
 .purchase-btn {
-    /* Primary button color from the screenshot (Yellow-Orange) */
     background-color: #f5c760; 
     color: #343a40;
     border: none;
@@ -116,14 +109,12 @@
 }
 
 .cancel-btn-wrapper {
-    /* Since cancel is an <a> tag styled as a button */
     display: block;
     width: 100%;
     margin-top: 0.5rem;
 }
 
 .cancel-btn {
-    /* Secondary button color from the screenshot (Red) */
     background-color: #dc3545; 
     color: white;
     border: none;
