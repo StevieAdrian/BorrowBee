@@ -178,16 +178,21 @@ class BookController extends Controller
             ->exists();
 
         if (!$isPaid && !$isBorrowed) {
-            return redirect()->route('book.show', $book->id)
+            return redirect()->route('books.show', $book->id)
                 ->with('error', 'Anda tidak memiliki akses ke buku ini.');
         }
 
         // Path file PDF
         $filePath = $book->pdf_file;
 
+        if (!$filePath) {
+            return redirect()->route('books.show', $book->id)
+                ->with('error', 'File PDF tidak ditemukan karena path kosong di database.');
+        } 
+
         if (!Storage::disk('public')->exists($filePath)) {
             $searchedPath = Storage::disk('public')->path($filePath);
-            return redirect()->route('book.show', $book->id)
+            return redirect()->route('books.show', $book->id)
                 ->with('error', "File PDF tidak ditemukan. (Mencari di: {$searchedPath})");
         }
 
@@ -201,6 +206,8 @@ class BookController extends Controller
                 ]
             );
         }
+
+        // dd($book->pdf_file, Storage::disk('public')->exists($book->pdf_file));
 
         $pdfUrl = asset('storage/' . $filePath);
 
