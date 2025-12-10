@@ -11,11 +11,12 @@
 
       <aside class="menu">
         <h2>Settings</h2>
-        <a href="{{ route('profile') }}" class="menu-link active">
+        <a href="{{ route('profile') }}" class="menu-link {{ request()->routeIs('profile') ? 'active' : '' }}">
           <iconify-icon icon="mdi:account-box-outline" width="20"></iconify-icon>
           <span>Profile</span>
         </a>
-        <a href="#" class="menu-link">
+
+        <a href="{{ route('privacy') }}" class="menu-link {{ request()->routeIs('privacy') ? 'active' : '' }}">
           <iconify-icon icon="mdi:lock-outline" width="20"></iconify-icon>
           <span>Privacy</span>
         </a>
