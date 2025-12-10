@@ -47,7 +47,7 @@
                 @endif
 
                 @auth
-                    @if(Auth::user()->role_id === 1)
+                    @if(Auth::user()->role_id === 2)
                         <a href="{{ route('books.edit', $book->id) }}" class="big-action-btn big-borrow">
                             Edit Book
                         </a>
@@ -137,6 +137,41 @@
             </div>
 
             <hr class="my-4">
+            @auth
+                @if(($alreadyBought || $alreadyBorrowed) && !$alreadyReviewed)
+                    <div class="review-form-card shadow-sm mb-4">
+                        <h4>Write a Review</h4>
+
+                        <form action="{{ route('review.store', $book->id) }}" method="POST">
+                            @csrf
+
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="star-rating-input me-3">
+                                    <i class="star-input bi bi-star" data-value="1"></i>
+                                    <i class="star-input bi bi-star" data-value="2"></i>
+                                    <i class="star-input bi bi-star" data-value="3"></i>
+                                    <i class="star-input bi bi-star" data-value="4"></i>
+                                    <i class="star-input bi bi-star" data-value="5"></i>
+                                </div>
+                                <span id="rating-text" class="fw-semibold text-muted">
+                                    Select rating
+                                </span>
+                            </div>
+
+                            <input type="hidden" name="rating" id="rating-input" required>
+                            <textarea  name="content" class="form-control stylish-textarea" rows="4" placeholder="Share your thoughts about this book..." required></textarea>
+
+                            <button type="submit" class="submit-review-btn mt-3 w-100">
+                                Submit Review
+                            </button>
+
+                        </form>
+
+                    </div>
+                    <hr class="my-4">            
+                @endif
+            @endauth
+  
             <div class="reviews-section mt-5">
                 <h3 class="fw-bold mb-4">Reviews</h3>
                 @forelse ($book->reviews as $rev)
@@ -194,50 +229,8 @@
     </div>
 </div>
 
-<script>
-    document.getElementById('toggle-desc')?.addEventListener('click', function() {
-        const shortDesc = document.getElementById('desc-short');
-        const fullDesc = document.getElementById('desc-full');
+@section('custom-js')
+    <script src="{{ asset('js/bookDetail.js') }}"></script>
+@endsection
 
-        if (fullDesc.classList.contains('d-none')) {
-            shortDesc.classList.add('d-none');
-            fullDesc.classList.remove('d-none');
-            shortDesc.classList.remove('fade-bottom'); 
-            this.textContent = "Show less";
-        } else {
-            fullDesc.classList.add('d-none');
-            shortDesc.classList.remove('d-none');
-            shortDesc.classList.add('fade-bottom');
-            this.textContent = "Show more";
-        }
-    });
-
-    document.querySelectorAll('.review-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const parent = btn.closest('.review-content');
-        const shortText = parent.querySelector('.short-text');
-        const fullText = parent.querySelector('.full-text');
-
-        const label = btn.querySelector('.label-text');
-        const arrow = btn.querySelector('.arrow');
-
-        if (fullText.classList.contains('d-none')) {
-            fullText.classList.remove('d-none');
-            shortText.classList.add('d-none');
-            shortText.classList.remove('fade-bottom');
-
-            label.textContent = "Show less";
-            arrow.style.transform = "rotate(180deg)";
-        } else {
-            fullText.classList.add('d-none');
-            shortText.classList.remove('d-none');
-            shortText.classList.add('fade-bottom');
-
-            label.textContent = "Show more";
-            arrow.style.transform = "rotate(0deg)";
-        }
-    });
-});
-
-</script>
 @endsection

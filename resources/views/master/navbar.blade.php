@@ -17,7 +17,7 @@
                     </li>
 
                     @auth
-                        @if(Auth::user()->role_id === 1)
+                        @if(Auth::user()->role_id === 2)
                             <li class="nav-item dropdown mx-2">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                     Book
