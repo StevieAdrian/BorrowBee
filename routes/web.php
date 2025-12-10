@@ -73,6 +73,8 @@ Route::middleware(['locale'])->group(function () {
       Route::get('/privacy', [UserController::class, 'privacy'])->name('privacy');
       Route::post('/privacy', [UserController::class, 'updatePrivacy'])->name('privacy.update');
 
+      Route::get('/buy/{book}', [BookController::class, 'createBuyView'])->name('transactions.create_view');
+
       Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');
       Route::get('/transactions/success', [TransactionController::class, 'success'])->name('transactions.success');
     });

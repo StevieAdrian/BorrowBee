@@ -142,22 +142,43 @@ class BookController extends Controller
 
         if($user){
             $alreadyBorrowed = BorrowedBook::where('user_id', $user->id)
-                                ->where('book_id', $book->id)
-                                ->whereNull('returned_at')
-                                ->first();
+                                 ->where('book_id', $book->id)
+                                 ->whereNull('returned_at')
+                                 ->first();
 
             $alreadyBought = Transaction::where('user_id', $user->id)
-                                ->where('book_id', $book->id)
-                                ->where('status', 'PAID')
-                                ->exists();
+                                 ->where('book_id', $book->id)
+                                 ->where('status', 'PAID')
+                                 ->exists();
            $alreadyReviewed = $book->reviews()
-                                ->where('user_id', $user->id)
-                                ->exists();
+                                 ->where('user_id', $user->id)
+                                 ->exists();
         }
         else{
             $alreadyBorrowed = null;
         }
         return view('book-detail', compact('book', 'alreadyBorrowed', 'alreadyBought', 'alreadyReviewed'));
+    }
+
+    public function createBuyView(Book $book)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in to purchase this book.');
+        }
+
+        $user = Auth::user();
+
+        $alreadyBought = Transaction::where('user_id', $user->id)
+                                    ->where('book_id', $book->id)
+                                    ->where('status', 'PAID')
+                                    ->exists();
+                                    
+        if ($alreadyBought) {
+            return redirect()->route('books.show', $book->id)
+                             ->with('info', 'You have already purchased this book and own it permanently.');
+        }
+
+        return view('buy-book', compact('book'));
     }
 
     public function accessPdf(Book $book)
@@ -218,7 +239,6 @@ class BookController extends Controller
     }
 
 
-
     public function viewOnly(Book $book)
     {
         $user = Auth::user(); 
@@ -228,18 +248,18 @@ class BookController extends Controller
         }
 
         $isBorrowed = BorrowedBook::where('user_id', $user->id)
-                                    ->where('book_id', $book->id)
-                                    ->whereNull('returned_at')
-                                    ->exists();
+                                         ->where('book_id', $book->id)
+                                         ->whereNull('returned_at')
+                                         ->exists();
         
         $isPaid = Transaction::where('user_id', $user->id)
-                                ->where('book_id', $book->id)
-                                ->where('status', 'PAID')
-                                ->exists();
+                                 ->where('book_id', $book->id)
+                                 ->where('status', 'PAID')
+                                 ->exists();
 
         if (!$isBorrowed || $isPaid) { 
             return redirect()->route('book.show', $book->id)
-                            ->with('error', 'Access denied. This book is either not borrowed or has been purchased.');
+                             ->with('error', 'Access denied. This book is either not borrowed or has been purchased.');
         }
 
         $pdfUrl = asset('storage/' . $book->pdf_file);
