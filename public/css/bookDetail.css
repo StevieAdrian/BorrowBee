@@ -266,6 +266,63 @@
     opacity: 0.7;
 }
 
+.review-form-card {
+    border-radius: 16px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #eee;
+}
+
+.review-form-card h4 {
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.star-rating-input {
+    display: flex;
+    gap: 6px;
+}
+
+.star-input {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #d3d3d3;
+    transition: color 0.2s ease;
+}
+
+.star-input.hovered,
+.star-input.selected {
+    color: #FFB933 !important;
+}
+
+.stylish-textarea {
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid #e2e2e2;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.stylish-textarea:focus {
+    border-color: #FFB933;
+    box-shadow: 0 0 0 3px rgba(255,185,51,0.25);
+}
+
+.submit-review-btn {
+    background: #FFB933;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.submit-review-btn:hover {
+    background: #e5a62c;
+}
+
 
 @media (max-width: 768px) {
     .col-md-4.text-center {

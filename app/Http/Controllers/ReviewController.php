@@ -62,7 +62,7 @@ class ReviewController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
-        return redirect()->route('review.show', $book->id)->with('success', 'Review submitted.');
+        return back()->with('success', 'Review submitted.');
     }
 
 
