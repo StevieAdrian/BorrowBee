@@ -32,18 +32,16 @@
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
                         <button type="submit" class="big-action-btn big-return">Return</button>
                     </form>
-                @else
+                    @else
                     <form action="{{ route('borrow.book') }}" method="POST">
                         @csrf
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
                         <button type="submit" class="big-action-btn big-borrow">Borrow</button>
                     </form>
-
-                    <form action="{{ route('transactions.create') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="book_id" value="{{ $book->id }}">
-                        <button type="submit" class="big-action-btn big-buy">Buy</button>
-                    </form>
+                    
+                    <a href="{{ route('transactions.create_view', $book->id) }}" class="big-action-btn big-buy">
+                        Buy
+                    </a>
                 @endif
 
                 @auth

@@ -160,11 +160,15 @@
     width: 80%;
     font-weight: 500;
     margin: 0 auto;
-    display: block;
+    display: block;    
+    color: #000000;
+    text-decoration: none;
 }
 
 .big-buy:hover {
-    background-color: #ededed;
+    background-color: #ededed;  
+    color: #000000; 
+    text-decoration: none;
 }
 
 .big-return {
