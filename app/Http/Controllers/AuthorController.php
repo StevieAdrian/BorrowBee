@@ -69,18 +69,24 @@ class AuthorController extends Controller
     public function toggleFollow(Author $author)
     {
         $user = auth()->user();
+        $isFollowing = $user->isFollowing($author);
 
-        if ($user->isFollowing($author)) {
+        if ($isFollowing) {
             $user->followedAuthors()->detach($author->id);
-            $user->refresh();
-
-            return back()->with('success', 'Unfollowed author.');
+        } else {
+            $user->followedAuthors()->attach($author->id);
         }
 
-        $user->followedAuthors()->attach($author->id);
-        $user->refresh();
+        $author->loadCount('followers');
 
-        return back()->with('success', 'Followed author.');
+        if (request()->ajax()) {
+            return response()->json([
+                'status' => $isFollowing ? 'unfollowed' : 'followed',
+                'followers_count' => $author->followers_count,
+            ]);
+        }
+
+        return back();
     }
 
 }

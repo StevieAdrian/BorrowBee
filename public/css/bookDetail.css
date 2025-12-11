@@ -141,6 +141,8 @@
 }
 
 .big-borrow {
+    text-decoration: none;
+    color: black;
     padding: 5px;
     width: 80%;
     margin: 0 auto;
