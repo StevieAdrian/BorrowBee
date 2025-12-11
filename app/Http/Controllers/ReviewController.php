@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Review;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ReviewController extends Controller
 {
+    use AuthorizesRequests;
+
     function index()
     {
         $books = Book::with(['categories', 'authors'])->withAvg('reviews', 'rating')->get();
@@ -65,5 +69,36 @@ class ReviewController extends Controller
         return back()->with('success', 'Review submitted.');
     }
 
+    public function edit(Review $review)
+    {
+        $this->authorize('update', $review);
+        return view('review.edit', compact('review'));
+    }
+
+    public function update(Request $request, Review $review)
+    {
+        $this->authorize('update', $review);
+
+        $request->validate([
+            'content' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        $review->update([
+            'content' => $request->content,
+            'rating' => $request->rating,
+        ]);
+
+        return back()->with('success', 'Review updated.');
+    }
+
+    public function destroy(Review $review)
+    {
+        $this->authorize('delete', $review);
+
+        $review->delete();
+
+        return back()->with('success', 'Review deleted.');
+    }
 
 }
