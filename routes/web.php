@@ -50,6 +50,8 @@ Route::middleware(['locale'])->group(function () {
     });
     
     Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
+    Route::get('/authors/{author}', [AuthorController::class, 'profile'])->name('author.profile');
+    Route::post('/authors/{author}/follow', [AuthorController::class, 'toggleFollow'])->name('author.follow')->middleware('auth');
     
     Route::get('/otp', [AuthController::class, 'otpForm'])->name('otp.form');
     Route::post('/otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
