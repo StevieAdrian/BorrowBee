@@ -117,3 +117,41 @@ document.querySelectorAll('.follow-form').forEach(form => {
         } 
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".edit-review-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            const reviewBox = btn.closest(".review-box");
+
+            reviewBox.querySelector(".review-text.short-text").classList.add("d-none");
+            reviewBox.querySelector(".review-text.full-text").classList.add("d-none");
+
+            reviewBox.querySelector(".edit-review-form").classList.remove("d-none");
+        });
+    });
+
+    document.querySelectorAll(".cancel-edit").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const reviewBox = btn.closest(".review-box");
+
+            reviewBox.querySelector(".review-text.short-text").classList.remove("d-none");
+            reviewBox.querySelector(".edit-review-form").classList.add("d-none");
+        });
+    });
+
+    document.querySelectorAll(".edit-review-form .star-input").forEach(star => {
+        star.addEventListener("click", () => {
+            const value = star.dataset.value;
+
+            const form = star.closest(".edit-review-form");
+            form.querySelector(".edit-rating-input").value = value;
+
+            form.querySelectorAll(".star-input").forEach(s => {
+                if (s.dataset.value <= value) s.classList.add("text-warning");
+                else s.classList.remove("text-warning");
+            });
+        });
+    });
+});

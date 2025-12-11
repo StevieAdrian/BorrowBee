@@ -65,6 +65,9 @@ Route::middleware(['locale'])->group(function () {
     Route::post('/reviews/{id}/store', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/reviews-list', [ReviewController::class, 'index'])->name('review.list');
     Route::get('/reviews-show/{id}', [ReviewController::class, 'showReview'])->name('review.show');
+    Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
     Route::middleware([IsLoginMiddleware::class])->group(function () {
       Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');

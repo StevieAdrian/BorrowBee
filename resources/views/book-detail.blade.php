@@ -190,7 +190,26 @@
             <div class="reviews-section mt-5">
                 <h3 class="fw-bold mb-4">Reviews</h3>
                 @forelse ($book->reviews as $rev)
-                    <div class="review-box d-flex mb-5">
+                    <div class="review-box d-flex mb-5 position-relative">
+                        @auth
+                            @if($rev->user_id === auth()->id())
+                                <div class="review-actions position-absolute" style="top:0; right:0;">
+                                    <button class="btn btn-sm btn-outline-primary me-1 edit-review-btn" data-id="{{ $rev->id }}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+
+                                    <form action="{{ route('review.destroy', $rev->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete review?');">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
+
                         <div class="review-user text-center me-4">
                             <img src="{{ asset('assets/default-avatar.png') }}" class="review-avatar mb-2" alt="User">
                             <div class="fw-bold">{{ $rev->user->name }}</div>
@@ -206,7 +225,13 @@
                         <div class="review-content flex-grow-1">
                             <div class="mb-1">
                                 <span class="star-rating" style="--rating: {{ $rev->rating }};">★★★★★</span>
-                                <small class="text-muted ms-2">{{ $rev->created_at->format('F d, Y') }}</small>
+                                <small class="text-muted ms-2">
+                                    {{ $rev->created_at->format('F d, Y') }}
+
+                                    @if($rev->updated_at->ne($rev->created_at))
+                                        <span class="text-secondary small">(edited)</span>
+                                    @endif
+                                </small>                            
                             </div>
 
                             @php
@@ -221,13 +246,34 @@
                                 {{ $text }}
                             </div>
 
+                            <form class="edit-review-form d-none mt-2" data-id="{{ $rev->id }}" method="POST" action="{{ route('review.update', $rev->id) }}">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="star-rating-input mb-2">
+                                    <i class="star-input bi bi-star" data-value="1"></i>
+                                    <i class="star-input bi bi-star" data-value="2"></i>
+                                    <i class="star-input bi bi-star" data-value="3"></i>
+                                    <i class="star-input bi bi-star" data-value="4"></i>
+                                    <i class="star-input bi bi-star" data-value="5"></i>
+                                </div>
+
+                                <input type="hidden" name="rating" class="edit-rating-input" value="{{ $rev->rating }}">
+
+                                <textarea name="content" class="form-control edit-textarea" rows="3">{{ $rev->content }}</textarea>
+
+                                <div class="d-flex justify-content-end gap-2 mt-2">
+                                    <button type="button" class="btn btn-secondary btn-sm cancel-edit">Cancel</button>
+                                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                                </div>
+                            </form>
                             @if(strlen($text) > 300)
                                 <a href="javascript:void(0)" class="review-toggle toggle-link d-inline-flex align-items-center mt-1">
                                     <span class="label-text">Show more</span>
                                     <span class="ms-1 arrow">&#9662;</span>
                                 </a>
                             @endif
-
+                            
 
                             <div class="mt-3 small text-muted">
                                 <strong>1,457 likes · 216 comments</strong>
