@@ -1,84 +1,90 @@
 @extends('master.master')
 
+@section('custom-css')
+    <link rel="stylesheet" href="{{ asset('css/book.css') }}">
+@endsection
+
 @section('content')
 <div class="container mt-4">
     <h2>Add New Book</h2>
 
-    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data" class="mt-3">
-        @csrf
+    <div class="add-book-card mt-3">
+        <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <div class="mb-3">
-            <label class="form-label">Title</label>
-            <input type="text" name="title" class="form-control" value="{{ old('title') }}">
-            @error('title') <small class="text-danger">{{ $message }}</small> @enderror
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Category</label>
-            <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
-                @foreach($categories as $c)
-                    <div class="form-check">
-                        <input class="form-check-input"
-                            type="checkbox"
-                            name="category_ids[]"
-                            value="{{ $c->id }}"
-                            id="cat{{ $c->id }}"
-                            {{ in_array($c->id, old('category_ids', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="cat{{ $c->id }}">
-                            {{ $c->name }}
-                        </label>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Category</label>
+                        <select class="form-select select2" name="category_ids[]" multiple>
+                            @foreach($categories as $c)
+                                <option value="{{ $c->id }}"
+                                    {{ in_array($c->id, old('category_ids', [])) ? 'selected' : '' }}>
+                                    {{ $c->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                @endforeach
-            </div>
-            @error('category_ids') <small class="text-danger">{{ $message }}</small> @enderror
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label">Author</label>
-            <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
-                @foreach($authors as $a)
-                    <div class="form-check">
-                        <input class="form-check-input"
-                            type="checkbox"
-                            name="author_ids[]"
-                            value="{{ $a->id }}"
-                            id="author{{ $a->id }}"
-                            {{ in_array($a->id, old('author_ids', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="author{{ $a->id }}">
-                            {{ $a->name }}
-                        </label>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        <input type="text" name="title" class="form-control"
+                               placeholder="Title" value="{{ old('title') }}">
                     </div>
-                @endforeach
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Author</label>
+                        <select class="form-select select2" name="author_ids[]" multiple>
+                            @foreach($authors as $a)
+                                <option value="{{ $a->id }}"
+                                    {{ in_array($a->id, old('author_ids', [])) ? 'selected' : '' }}>
+                                    {{ $a->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Price</label>
+                        <input type="number" name="price" class="form-control"
+                               placeholder="Price" value="{{ old('price') }}" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Synopsis</label>
+                        <textarea name="description" class="form-control textarea-large" placeholder="Synopsis">{{ old('description') }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">PDF File</label>
+                        <input type="file" name="pdf_file" class="form-control">
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button class="btn btn-save px-4">Save</button>
+                        <a href="{{ route('books.index') }}" class="btn btn-discard px-4">Discard</a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="img-preview-box mb-3" id="imgPreviewBox">
+                        <img id="coverPreview" class="default-plus" src="{{ asset('assets/plus-icon.png') }}" alt="Preview">
+                    </div>
+
+                        <p class="upload-warning">* Please upload the book cover image</p>
+
+                    <input type="file" name="cover_image" id="coverInput" class="form-control mb-2" style="display: none;">
+                    
+                </div>
             </div>
-            @error('author_ids') <small class="text-danger">{{ $message }}</small> @enderror
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label">Price (Rp)</label>
-            <input type="number" name="price" class="form-control" value="{{ old('price', 0) }}">
-            @error('price') <small class="text-danger">{{ $message }}</small> @enderror
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea name="description" class="form-control">{{ old('description') }}</textarea>
-            @error('description') <small class="text-danger">{{ $message }}</small> @enderror
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Cover Image</label>
-            <input type="file" name="cover_image" class="form-control">
-            @error('cover_image') <small class="text-danger">{{ $message }}</small> @enderror
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">PDF File</label>
-            <input type="file" name="pdf_file" class="form-control">
-            @error('pdf_file') <small class="text-danger">{{ $message }}</small>@enderror
-        </div>
-
-        <button class="btn btn-primary mt-2">Save</button>
-        <a href="{{ route('books.index') }}" class="btn btn-secondary mt-2">Back</a>
-    </form>
+        </form>
+    </div>
 </div>
+
+@section('custom-js')
+    <script src="{{ asset('js/book.js') }}"></script>
+@endsection
+
 @endsection
