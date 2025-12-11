@@ -53,7 +53,7 @@ class ReviewController extends Controller
         $existingReview = $book->reviews()->where('user_id', Auth::user()->id)->first();
         
         if ($existingReview) {
-            return redirect()->route('review.show', $book->id)->with('error', 'You have already reviewed this book.');
+            return back()->with('error', 'You have already reviewed this book.');
         } 
 
         $book->reviews()->create([

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('cover_image')->nullable();
             $table->string('pdf_file');
             $table->decimal('price', 12, 0);
+            $table->boolean('is_available')->default(true);
             $table->timestamps();
         });
     }
