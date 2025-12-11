@@ -139,9 +139,9 @@
 
                         <div class="ms-3">
                             @auth
-                                <form action="{{ route('author.follow', $author->id) }}" method="POST">
+                                <form action="{{ route('author.follow', $author->id) }}"  method="POST" class="follow-form" data-author-id="{{ $author->id }}">
                                     @csrf
-                                    <button class="btn btn-dark btn-sm">
+                                    <button class="btn btn-dark btn-sm follow-btn">
                                         {{ auth()->user()->isFollowing($author) ? 'Unfollow' : 'Follow' }}
                                     </button>
                                 </form>

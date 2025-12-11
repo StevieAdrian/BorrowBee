@@ -78,3 +78,42 @@ function fillStars(value) {
         }
     });
 }
+
+document.querySelectorAll('.follow-form').forEach(form => {
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const btn = form.querySelector('.follow-btn');
+
+        let response = await fetch(form.action, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": form.querySelector("input[name=_token]").value,
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({})
+        });
+
+        if (!response.ok) {
+            // console.log("debug err ajx: ", await response.text());
+            return;
+        }
+
+        let data = await response.json();
+
+        if (data.status === "followed") {
+            btn.textContent = "Unfollow";
+        } else if (data.status === "unfollowed") {
+            btn.textContent = "Follow";
+        }
+
+        const stat = form.closest('.author-box').querySelector('.stats');
+
+        if (stat && data.followers_count !== undefined) {
+            // console.log("tes masuk");
+            let books = stat.textContent.split("·")[0].trim();
+            stat.textContent = `${books} · ${data.followers_count} followers`;
+        } 
+    });
+});
