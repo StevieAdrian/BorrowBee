@@ -56,4 +56,31 @@ class AuthorController extends Controller
 
         return redirect()->route('authors.index')->with('success', 'Author deleted successfully.');
     }
+
+    public function profile(Author $author)
+    {
+        $author->loadCount('followers');
+
+        $books = $author->books()->with('categories')->get();
+
+        return view('author', compact('author', 'books'));
+    }
+
+    public function toggleFollow(Author $author)
+    {
+        $user = auth()->user();
+
+        if ($user->isFollowing($author)) {
+            $user->followedAuthors()->detach($author->id);
+            $user->refresh();
+
+            return back()->with('success', 'Unfollowed author.');
+        }
+
+        $user->followedAuthors()->attach($author->id);
+        $user->refresh();
+
+        return back()->with('success', 'Followed author.');
+    }
+
 }

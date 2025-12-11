@@ -14,4 +14,15 @@ class Author extends Model
     {
         return $this->belongsToMany(Book::class, 'book_authors');
     }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'author_user')->withTimestamps();
+    }
+
+    public function followersCount()
+    {
+        return $this->followers()->count();
+    }
+
 }

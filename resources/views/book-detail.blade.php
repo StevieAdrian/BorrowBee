@@ -118,17 +118,34 @@
                 <div class="author-header">About the Author</div>
 
                 @foreach ($book->authors as $author)
-                    <div class="author-box mb-3">
-                        <div class="author-photo">
-                            <img src="{{ asset('assets/default-avatar.png') }}" alt="Author placeholder">
+                    <div class="author-box mb-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="author-photo me-3">
+                                <img src="{{ asset('assets/default-avatar.png') }}" alt="Author placeholder">
+                            </div>
+
+                            <div class="author-info">
+                                <div class="name fw-bold">{{ $author->name }}</div>
+                                <div class="stats text-muted">
+                                    {{ $author->books_count ?? 0 }} books · 
+                                    {{ $author->followers_count ?? 0 }} followers
+                                </div>
+
+                                <a href="{{ route('author.profile', [$author->id, 'from' => $book->id]) }}" class="btn btn-outline-dark btn-sm mt-2 me-2">
+                                    View Profile
+                                </a>
+                            </div>
                         </div>
 
-                        <div class="author-info">
-                            <div class="name">{{ $author->name }}</div>
-                            <div class="stats">
-                                {{ $author->books_count ?? 0 }} books · 
-                                {{ $author->followers_count ?? 0 }} followers
-                            </div>
+                        <div class="ms-3">
+                            @auth
+                                <form action="{{ route('author.follow', $author->id) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-dark btn-sm">
+                                        {{ auth()->user()->isFollowing($author) ? 'Unfollow' : 'Follow' }}
+                                    </button>
+                                </form>
+                            @endauth
                         </div>
                     </div>
                 @endforeach

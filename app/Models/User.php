@@ -68,4 +68,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function followedAuthors()
+    {
+        return $this->belongsToMany(Author::class, 'author_user')->withTimestamps();
+    }
+
+    public function isFollowing(Author $author)
+    {
+        return $this->followedAuthors()->where('author_id', $author->id)->exists();
+    }
+
 }

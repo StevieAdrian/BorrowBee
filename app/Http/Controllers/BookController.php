@@ -133,7 +133,13 @@ class BookController extends Controller
 
     public function show($id)
     {
-        $book = Book::with(['categories', 'authors'])->withAvg('reviews', 'rating')->findOrFail($id);
+        $book = Book::with([
+            'categories',
+            'authors' => function ($q) {
+                $q->withCount('followers')->withCount('books');
+            }
+        ])->withAvg('reviews', 'rating')->withCount('reviews')->findOrFail($id);
+        
         $user = Auth::user();
 
         $alreadyBorrowed = null;
