@@ -1,63 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
     </script>
-
-    <style>
-        body {
-            margin: 0;
-            background: #f2f2f2;
-        }
-
-        #viewer {
-            width: 100%;
-            height: 100vh;
-            overflow-y: scroll;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        canvas {
-            display: block;
-            margin: 0 auto 20px auto;
-            background: white;
-            box-shadow: 0 0 8px rgba(0,0,0,.2);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/pdfViewer.css') }}">
 </head>
 <body>
+    <div class="viewer-wrap">
+        <div id="viewer-status" style="position:fixed;top:12px;right:12px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 10px;border-radius:6px;font-size:12px;z-index:9999">Loading...</div>
+        <div class="book-viewport">
+            <div id="flipbook"></div>
+        </div>
 
-<div id="viewer"></div>
+        <div class="controls">
+            <span id="prev" class="btn">‹ Prev</span>
+            <span id="next" class="btn">Next ›</span>
+        </div>
+    </div>
 
-<script>
-    async function renderPDF(url) {
-        const pdf = await pdfjsLib.getDocument(url).promise;
-        const viewer = document.getElementById('viewer');
-
-        for (let i = 1; i <= pdf.numPages; i++) {
-            const page = await pdf.getPage(i);
-            const viewport = page.getViewport({ scale: 1.2 });
-
-            const canvas = document.createElement("canvas");
-            const context = canvas.getContext("2d");
-
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-
-            viewer.appendChild(canvas);
-
-            await page.render({
-                canvasContext: context,
-                viewport: viewport
-            }).promise;
-        }
-    }
-    renderPDF("{{ $pdfUrl }}");
-</script>
-
+    <script>
+        window.pdfUrl = "{{ $pdfUrl }}";
+    </script>
+    <script src="{{ asset('js/pdfViewer.js') }}"></script>
 </body>
 </html>

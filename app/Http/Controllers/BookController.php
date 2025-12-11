@@ -217,24 +217,13 @@ class BookController extends Controller
                 ->with('error', "File PDF tidak ditemukan. (Mencari di: {$searchedPath})");
         }
 
-        if ($isPaid) {
-            return Storage::disk('public')->response(
-                $filePath,
-                $book->title . '.pdf',
-                [
-                    'Content-Type'        => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="' . $book->title . '.pdf"',
-                ]
-            );
-        }
-
-        // dd($book->pdf_file, Storage::disk('public')->exists($book->pdf_file));
-
         $pdfUrl = asset('storage/' . $filePath);
 
         return view('books.pdf-viewer', [
             'bookTitle' => $book->title,
             'pdfUrl'    => $pdfUrl,
+            'isPaid'    => $isPaid,
+            'filePath'  => $filePath,
         ]);
     }
 
