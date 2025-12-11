@@ -20,8 +20,8 @@ class AdminMiddleware
             return redirect('/login');
         }
 
-        if (Auth::user()->role_id != 1) {
-            return redirect('/');
+        if (Auth::user()->role_id != 2) {
+            return redirect('/home');
         }
         return $next($request);
     }
