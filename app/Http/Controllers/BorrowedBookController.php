@@ -77,6 +77,7 @@ class BorrowedBookController extends Controller
 
         $borrowedBooks = BorrowedBook::with('book')
             ->where('user_id', $user->id)
+            ->whereNull('returned_at')
             ->orderBy('borrowed_at', 'desc')
             ->get();
 

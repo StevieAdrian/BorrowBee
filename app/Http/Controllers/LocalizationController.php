@@ -9,7 +9,7 @@ class LocalizationController extends Controller
 {
     //
     public function localization($loc){
-        if(in_array($loc, ['en', 'id', 'jp'])){
+        if(in_array($loc, ['en', 'id'])){
             session(['locale' => $loc]);
             // app()->setLocale($loc);
         }
