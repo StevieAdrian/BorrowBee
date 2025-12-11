@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-0 sticky-top">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
+        <a class="navbar-brand d-flex align-items-center" href="{{ Auth::check() && Auth::user()->role_id === 2 ? route('admin.dashboard') : route('home') }}">
             <img src="{{ asset('assets/borrowbee-logo-2.png') }}" alt="logo" width="80" class="me-2 mt-2 align-self-center">
             <span class="fw-semibold">BorrowBee</span>
         </a>
@@ -11,77 +11,77 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
-                @if (!Request::is('/'))
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="{{ route('home') }}">Home</a>
-                    </li>
+                @auth
+                    @if(Auth::user()->role_id === 2)
+                        
+                        <li class="nav-item mx-2">
+                            <a class="nav-link fw-semibold" href="{{ route('admin.dashboard') }}">
+                                Dashboard
+                            </a>
+                        </li>
 
-                    @auth
-                        @if(Auth::user()->role_id === 2)
-                            <li class="nav-item dropdown mx-2">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                    Book
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('books.index') }}">
-                                            Books
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('books.create') }}">
-                                            Create Books
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                    @endauth
+                        @include('master.lang.localization')
 
+                        <li class="nav-item ms-3 dropdown">
+                            <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
+                                @if (Auth::user()->avatar)
+                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" width="55" height="55" style="object-fit: cover;" class="rounded-circle">
+                                @else
+                                    <img src="{{ asset('assets/default-pp.png') }}" width="55" class="rounded-circle">
+                                @endif
+                            </a>
 
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="#">About Us</a>
-                    </li>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            </ul>
+                        </li>
 
-                    <li class="nav-item mx-2">
-                        <a class="nav-link" href="{{ route('mybooks') }}">My Books</a>
-                    </li>
-                @endif
+                    @else
 
-                @include('master.lang.localization')
-                
-                @if (!Request::is('/'))
+                    @if (!Request::is('/'))
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="{{ route('home') }}">Home</a>
+                        </li>
+
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="{{ route('mybooks') }}">My Books</a>
+                        </li>
+
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                    @endif
+
+                    @include('master.lang.localization')
+
                     <li class="nav-item ms-3 dropdown">
                         <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
-                            @auth
-                                @if (Auth::user()->avatar)
-                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" width="60" height="60" style="object-fit: cover;" class="rounded-circle" alt="profile">
-                                @else
-                                    <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
-                                @endif
-                            @endauth
-                            @guest
-                                <img src="{{ asset('assets/default-pp.png') }}" width="60" class="rounded-circle" alt="profile">
-                            @endguest
+                            @if (Auth::user()->avatar)
+                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" width="55" height="55" style="object-fit: cover;" class="rounded-circle">
+                            @else
+                                <img src="{{ asset('assets/default-pp.png') }}" width="55" class="rounded-circle">
+                            @endif
                         </a>
+
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
-                            @guest
-                                <a class="dropdown-item" href="{{ route('login') }}"> Login</a>
-                            @endguest
-                            @auth
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout</a>
-                            @endauth
+                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                         </ul>
                     </li>
 
-                @endif
+                    @endif
+                @endauth
 
-                @if (Request::is('/'))
-                    <li class="nav-item ms-3">
-                        <a href="{{ route('register') }}" class="btn px-3" style="background-color: #FFE9A3; border:none; color:#000; font-weight:600;">Sign In</a>
-                    </li>
-                @endif
+                @guest
+                    @include('master.lang.localization')
+
+                    @if (Request::is('/'))
+                        <li class="nav-item ms-3">
+                            <a href="{{ route('register') }}" class="btn px-3" style="background-color: #FFE9A3; border:none; color:#000; font-weight:600;">Sign In</a>
+                        </li>
+                    @endif
+                @endguest
 
             </ul>
         </div>
