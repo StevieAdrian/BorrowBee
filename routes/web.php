@@ -12,6 +12,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\IsLoginMiddleware;
 
@@ -30,6 +31,7 @@ Route::middleware(['locale'])->group(function () {
     Route::resource('books', BookController::class)->only(['index', 'show', 'create']);
     
     Route::middleware([AdminMiddleware::class])->group(function () {
+        Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::resource('categories', CategoryController::class);
         Route::resource('authors', AuthorController::class);
         Route::resource('books', BookController::class)->except(['index', 'show', 'create']);

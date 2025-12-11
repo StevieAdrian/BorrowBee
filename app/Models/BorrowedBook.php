@@ -14,6 +14,12 @@ class BorrowedBook extends Model
         'returned_at',
     ];
 
+    protected $casts = [
+        'borrowed_at' => 'datetime',
+        'due_date' => 'datetime',
+        'returned_at' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -26,7 +26,7 @@
     <main class="flex-grow-1 d-flex flex-column {{ request()->routeIs(['login', 'register', 'otp*'])}}">
         @yield('content')
     </main>
-    @if (!request()->routeIs(['login*', 'register*', 'otp*', 'landing']))
+    @if (!request()->routeIs(['login*', 'register*', 'otp*', 'landing']) && !(auth()->check() && auth()->user()->role_id == 2))
         @include('master.footer')
     @endif
     @yield('scripts')
