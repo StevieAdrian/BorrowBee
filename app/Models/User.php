@@ -88,4 +88,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReviewDislike::class);
     }
+
+    public function followingUser()
+    {
+        return $this->belongsToMany(User::class, 'user_followers', 'follower_id', 'followed_id');
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'user_followers', 'followed_id', 'follower_id');
+    }
+
+    public function isFollowingUser(User $user)
+    {
+        return $this->followingUser()->where('followed_id', $user->id)->exists();
+    }
+
+    public function followersCount()
+    {
+        return $this->followers()->count();
+    }
 }

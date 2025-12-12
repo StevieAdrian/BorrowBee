@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -70,5 +72,19 @@ class UserController extends Controller
         $user->save();
 
         return back()->with('success', 'Password updated successfully!');
+    }
+
+    public function toggleFollow($id)
+    {
+        $target = User::findOrFail($id);
+        $user = Auth::user();
+
+        if ($user->isFollowingUser($target)) {
+            $user->followingUser()->detach($target->id);
+        } else {
+            $user->followingUser()->attach($target->id);
+        }
+
+        return back();
     }
 }
