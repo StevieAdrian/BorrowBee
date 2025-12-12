@@ -79,4 +79,13 @@ class User extends Authenticatable
         return $this->followedAuthors()->where('author_id', $author->id)->exists();
     }
 
+    public function reviewLikes()
+    {
+        return $this->hasMany(ReviewLike::class);
+    }
+
+    public function reviewDislikes()
+    {
+        return $this->hasMany(ReviewDislike::class);
+    }
 }

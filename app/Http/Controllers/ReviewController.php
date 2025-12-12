@@ -101,4 +101,44 @@ class ReviewController extends Controller
         return back()->with('success', 'Review deleted.');
     }
 
+    public function toggleLike($reviewId)
+    {
+        $review = Review::findOrFail($reviewId);
+        $user = auth()->user();
+
+        $existingLike = $review->likes()->where('user_id', $user->id)->first();
+
+        if ($existingLike) {
+            $existingLike->delete();
+            return back()->with('success', 'Unliked');
+        }
+
+        $review->likes()->create([
+            'user_id' => $user->id
+        ]);
+
+        return back()->with('success', 'Liked');
+    }
+
+    public function toggleDislike($reviewId)
+    {
+        $review = Review::findOrFail($reviewId);
+        $user = auth()->user();
+
+        $review->likes()->where('user_id', $user->id)->delete();
+
+        $existing = $review->dislikes()->where('user_id', $user->id)->first();
+
+        if ($existing) {
+            $existing->delete();
+            return back()->with('success', 'Dislike removed');
+        }
+
+        $review->dislikes()->create([
+            'user_id' => $user->id
+        ]);
+
+        return back()->with('success', 'Disliked');
+    }
+
 }

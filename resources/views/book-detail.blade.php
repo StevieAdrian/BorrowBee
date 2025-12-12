@@ -120,9 +120,11 @@
                 @foreach ($book->authors as $author)
                     <div class="author-box mb-3 d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
-                            <div class="author-photo me-3">
-                                <img src="{{ asset('assets/default-avatar.png') }}" alt="Author placeholder">
-                            </div>
+                            <a href="{{ route('author.profile', [$author->id, 'from' => $book->id]) }}">
+                                <div class="author-photo me-3">
+                                    <img src="{{ asset('assets/default-avatar.png') }}" alt="Author placeholder">
+                                </div>
+                            </a>
 
                             <div class="author-info">
                                 <div class="name fw-bold">{{ $author->name }}</div>
@@ -274,11 +276,27 @@
                                 </a>
                             @endif
                             
+                            <div class="mt-3 d-flex align-items-center gap-3">
+                                 @auth
+                                    <form action="{{ route('review.like', $rev->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button class="like-btn" type="submit">
+                                            <i class="bi bi-hand-thumbs-up{{ $rev->likedBy(auth()->user()) ? '-fill text-dark' : '' }}"></i>
+                                        </button>
+                                    </form>
+                                @endauth
+                                <span class="like-count text-muted">{{ $rev->likes->count() }}</span>
 
-                            <div class="mt-3 small text-muted">
-                                <strong>1,457 likes · 216 comments</strong>
+                                @auth
+                                    <form action="{{ route('review.dislike', $rev->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button class="like-btn" type="submit">
+                                            <i class="bi bi-hand-thumbs-down{{ $rev->dislikedBy(auth()->user()) ? '-fill text-dark' : '' }}"></i>
+                                        </button>
+                                    </form>
+                                @endauth
+                                <span class="like-count text-muted">{{ $rev->dislikes->count() }}</span>
                             </div>
-
                         </div>
                     </div>
                     <hr>
