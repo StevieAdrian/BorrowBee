@@ -218,10 +218,17 @@
 
                             <div class="text-muted small">
                                 {{ $rev->user->reviews()->count() }} reviews<br>
-                                {{ $rev->user->followers_count ?? 0 }} followers
+                                {{ $rev->user->followersCount() ?? 0 }} followers
                             </div>
 
-                            <button class="btn btn-dark btn-sm mt-2">Follow</button>
+                            @auth
+                                <form action="{{ route('user.follow', $rev->user->id) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-dark btn-sm mt-2">
+                                        {{ auth()->user()->isFollowingUser($rev->user) ? 'Unfollow' : 'Follow' }}
+                                    </button>
+                                </form>
+                            @endauth
                         </div>
 
                         <div class="review-content flex-grow-1">
