@@ -19,7 +19,9 @@ class HomeController extends Controller
         }
 
         if ($request->category_id) {
-            $query->where('category_id', $request->category_id);
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->category_id);
+            });
         }
 
         if ($request->sort === 'price_asc') {
