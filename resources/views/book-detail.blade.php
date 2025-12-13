@@ -213,8 +213,10 @@
                         @endauth
 
                         <div class="review-user text-center me-4">
-                            <img src="{{ asset('assets/default-avatar.png') }}" class="review-avatar mb-2" alt="User">
-                            <div class="fw-bold">{{ $rev->user->name }}</div>
+                            <a href="{{ route('users.show', $rev->user->id) }}" class="text-decoration-none text-dark">
+                                <img src="{{ asset('assets/default-avatar.png') }}" class="review-avatar mb-2">
+                                <div class="fw-bold">{{ $rev->user->name }}</div>
+                            </a>
 
                             <div class="text-muted small">
                                 {{ $rev->user->reviews()->count() }} reviews<br>

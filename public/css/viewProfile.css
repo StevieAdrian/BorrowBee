@@ -102,3 +102,50 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+
+.profile-header {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.profile-avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-meta {
+    flex: 1;
+}
+
+.profile-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.username {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 24px;
+    margin: 14px 0;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.profile-stats span:hover {
+    text-decoration: underline;
+}
+
+.profile-bio {
+    max-width: 420px;
+    line-height: 1.4;
+}

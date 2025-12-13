@@ -9,61 +9,43 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body text-center">
-                    <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('assets/default-avatar.png') }}" class="rounded-circle mb-3" width="140" height="140" style="object-fit:cover;">
-                    <h4 class="fw-bold mb-1">{{ $user->name }}</h4>
-                    <p class="text-muted mb-3">Member since {{ $user->created_at?->format('F Y') ?? '-' }}</p>
+            <div class="profile-header mb-4">
+                <div class="profile-avatar">
+                    <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : asset('assets/default-avatar.png') }}">
+                </div>
 
-                    @auth
-                        @if(auth()->id() !== $user->id)
-                            <form action="{{ route('user.follow', $user->id) }}" method="POST">
-                                @csrf
-                                <button class="btn {{ $isFollowing ? 'btn-secondary' : 'btn-warning' }} px-4">
-                                    {{ $isFollowing ? 'Following' : 'Follow' }}
-                                </button>
-                            </form>
+                <div class="profile-meta">
+                    <div class="profile-top">
+                        <h4 class="username">{{ $user->name }}</h4>
+                        @auth
+                            @if(auth()->id() !== $user->id)
+                                <form action="{{ route('user.follow', $user->id) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-sm {{ $isFollowing ? 'btn-secondary' : 'btn-warning' }}">
+                                        {{ $isFollowing ? 'Following' : 'Follow' }}
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
+                    </div>
+
+                    <div class="profile-stats">
+                        <span onclick="openFollowPopup('followers')">
+                            <strong>{{ $user->followers()->count() }}</strong> followers
+                        </span>
+                        <span onclick="openFollowPopup('following')">
+                            <strong>{{ $user->followingUser()->count() }}</strong> following
+                        </span>
+                    </div>
+
+                    <div class="profile-bio">
+                        @if($user->bio)
+                            {{ $user->bio }}
+                        @else
+                            <span class="text-muted">This user hasn't written a bio yet.</span>
                         @endif
-                    @endauth
-                </div>
-            </div>
+                    </div>
 
-            <div class="row text-center mb-4">
-                <div class="col">
-                    <a href="#" onclick="openFollowPopup('followers')" class="text-dark text-decoration-none">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-3">
-                                <h5 class="fw-bold">
-                                    <div>{{ $user->followers()->count() }}</div>
-                                </h5>
-                                <div class="stat-label">Followers</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="#" onclick="openFollowPopup('following')" class="text-dark text-decoration-none">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-3">
-                                <h5 class="fw-bold">
-                                    {{ $user->followingUser()->count() }}
-                                </h5>
-                                <small class="text-muted">Following</small>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-2">About</h6>
-
-                    @if($user->bio)
-                        <p class="mb-0">{{ $user->bio }}</p>
-                    @else
-                        <p class="text-muted mb-0">This user hasn't written a bio yet.</p>
-                    @endif
                 </div>
             </div>
             <div class="card shadow-sm border-0 mt-4">
@@ -71,19 +53,26 @@
                     <h6 class="fw-bold mb-3">Reviews by {{ $user->name }}</h6>
                     @forelse($reviews as $review)
                         <div class="mb-3 pb-3 border-bottom">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <a href="{{ route('books.show', $review->book->id) }}" class="fw-semibold text-decoration-none text-dark">{{ $review->book->title }}</a>
-                                    <div class="d-flex align-items-center gap-2 mt-1">
-                                        <span class="star-rating" style="--rating: {{ $review->rating }};">★★★★★</span>
-                                        <small class="text-muted">{{ number_format($review->rating, 1) }} · {{ $review->created_at->diffForHumans() }}</small>
-                                    </div>
-                                </div>
+                            <a href="{{ route('books.show', $review->book->id) }}" class="fw-semibold text-decoration-none text-dark">
+                                {{ $review->book->title }}
+                            </a>
+
+                            <div class="d-flex align-items-center gap-2 mt-1">
+                                <span class="star-rating" style="--rating: {{ $review->rating }};">★★★★★</span>
+                                <small class="text-muted">
+                                    {{ number_format($review->rating, 1) }} ·
+                                    {{ $review->created_at->diffForHumans() }}
+                                </small>
                             </div>
-                            <p class="mb-0 mt-2">{{ Str::limit($review->content, 150) }}</p>
+
+                            <p class="mb-0 mt-2">
+                                {{ Str::limit($review->content, 150) }}
+                            </p>
                         </div>
                     @empty
-                        <p class="text-muted mb-0">This user hasn’t written any reviews yet.</p>
+                        <p class="text-muted mb-0">
+                            This user hasn’t written any reviews yet.
+                        </p>
                     @endforelse
 
                     @if($reviews->hasPages())
@@ -95,7 +84,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <div id="followPopup" class="follow-popup d-none" onclick="closeFollowPopup()">
@@ -138,7 +126,6 @@
     </div>
 </div>
 
-
 <script>
     function openFollowPopup(tab) {
         document.getElementById('followPopup').classList.remove('d-none');
@@ -157,5 +144,4 @@
         document.getElementById('tab-following').classList.toggle('active', tab === 'following');
     }
 </script>
-
 @endsection
