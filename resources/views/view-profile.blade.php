@@ -66,7 +66,33 @@
                     @endif
                 </div>
             </div>
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Reviews by {{ $user->name }}</h6>
+                    @forelse($reviews as $review)
+                        <div class="mb-3 pb-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <a href="{{ route('books.show', $review->book->id) }}" class="fw-semibold text-decoration-none text-dark">{{ $review->book->title }}</a>
+                                    <div class="d-flex align-items-center gap-2 mt-1">
+                                        <span class="star-rating" style="--rating: {{ $review->rating }};">★★★★★</span>
+                                        <small class="text-muted">{{ number_format($review->rating, 1) }} · {{ $review->created_at->diffForHumans() }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-0 mt-2">{{ Str::limit($review->content, 150) }}</p>
+                        </div>
+                    @empty
+                        <p class="text-muted mb-0">This user hasn’t written any reviews yet.</p>
+                    @endforelse
 
+                    @if($reviews->hasPages())
+                        <div class="mt-3">
+                            {{ $reviews->links() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
