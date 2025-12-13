@@ -16,10 +16,12 @@ class UserController extends Controller
 
         $isFollowing = false;
         if ($authUser && $authUser->id !== $user->id) {
-            $isFollowing = $authUser->followingUsers()->where('followed_user_id', $user->id)->exists();
+            $isFollowing = $authUser->followingUser()->where('followed_id', $user->id)->exists();
         }
 
-        return view('view-profile', compact('user', 'isFollowing'));
+        $reviews = $user->reviews()->with('book')->latest()->paginate(5);
+
+        return view('view-profile', compact('user', 'isFollowing', 'reviews'));
     }
 
     public function profile()

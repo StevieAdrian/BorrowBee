@@ -22,7 +22,6 @@
     flex-direction: column;
 }
 
-
 .follow-popup-header {
     display: flex;
     align-items: center;
@@ -95,4 +94,11 @@
     color: #6c757d;
     line-height: 1.2;
     margin-top: 2px;
+}
+
+.star-rating {
+    font-size: 1.3rem;
+    background: linear-gradient(90deg,#ffb400 calc(var(--rating) * 20%),#ddd calc(var(--rating) * 20%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
