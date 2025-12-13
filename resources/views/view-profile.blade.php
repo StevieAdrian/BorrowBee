@@ -1,5 +1,9 @@
 @extends('master.master')
 
+@section('custom-css')
+    <link rel="stylesheet" href="{{ asset('css/viewProfile.css') }}">
+@endsection
+
 @section('content')
 <div class="container py-5">
 
@@ -26,20 +30,28 @@
 
             <div class="row text-center mb-4">
                 <div class="col">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body">
-                            <h5 class="fw-bold mb-0">{{ $user->followers()->count() }}</h5>
-                            <small class="text-muted">Followers</small>
+                    <a href="#" onclick="openFollowPopup('followers')" class="text-dark text-decoration-none">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-3">
+                                <h5 class="fw-bold">
+                                    <div>{{ $user->followers()->count() }}</div>
+                                </h5>
+                                <div class="stat-label">Followers</div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body">
-                            <h5 class="fw-bold mb-0">{{ $user->followingUser()->count() }}</h5>
-                            <small class="text-muted">Following</small>
+                    <a href="#" onclick="openFollowPopup('following')" class="text-dark text-decoration-none">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-3">
+                                <h5 class="fw-bold">
+                                    {{ $user->followingUser()->count() }}
+                                </h5>
+                                <small class="text-muted">Following</small>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
@@ -59,4 +71,65 @@
     </div>
 
 </div>
+
+<div id="followPopup" class="follow-popup d-none" onclick="closeFollowPopup()">
+    <div class="follow-popup-card" onclick="event.stopPropagation()">
+        <div class="follow-popup-header">
+            <button onclick="closeFollowPopup()" class="back-btn">←</button>
+            <span class="username">{{ $user->name }}</span>
+        </div>
+        <div class="follow-tabs">
+            <button id="tab-followers" onclick="switchTab('followers')" class="active">
+                Followers
+            </button>
+            <button id="tab-following" onclick="switchTab('following')">
+                Following
+            </button>
+        </div>
+        <div class="follow-list">
+            <div id="followers-list">
+                @forelse($user->followers as $follower)
+                    <a href="{{ route('users.show', $follower->id) }}" class="follow-item">
+                        <img src="{{ $follower->avatar ? asset('storage/'.$follower->avatar) : asset('assets/default-avatar.png') }}">
+                        <strong>{{ $follower->name }}</strong>
+                    </a>
+                @empty
+                    <p class="empty-text">No followers yet</p>
+                @endforelse
+            </div>
+            <div id="following-list" class="d-none">
+                @forelse($user->followingUser as $following)
+                    <a href="{{ route('users.show', $following->id) }}" class="follow-item">
+                        <img src="{{ $following->avatar ? asset('storage/'.$following->avatar) : asset('assets/default-avatar.png') }}">
+                        <strong>{{ $following->name }}</strong>
+                    </a>
+                @empty
+                    <p class="empty-text">Not following anyone</p>
+                @endforelse
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    function openFollowPopup(tab) {
+        document.getElementById('followPopup').classList.remove('d-none');
+        switchTab(tab);
+    }
+
+    function closeFollowPopup() {
+        document.getElementById('followPopup').classList.add('d-none');
+    }
+
+    function switchTab(tab) {
+        document.getElementById('followers-list').classList.toggle('d-none', tab !== 'followers');
+        document.getElementById('following-list').classList.toggle('d-none', tab !== 'following');
+
+        document.getElementById('tab-followers').classList.toggle('active', tab === 'followers');
+        document.getElementById('tab-following').classList.toggle('active', tab === 'following');
+    }
+</script>
+
 @endsection
