@@ -222,12 +222,14 @@
                             </div>
 
                             @auth
-                                <form action="{{ route('user.follow', $rev->user->id) }}" method="POST">
-                                    @csrf
-                                    <button class="btn btn-dark btn-sm mt-2">
-                                        {{ auth()->user()->isFollowingUser($rev->user) ? 'Unfollow' : 'Follow' }}
-                                    </button>
-                                </form>
+                                @if(auth()->id() !== $rev->user->id)
+                                    <form action="{{ route('user.follow', $rev->user->id) }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-dark btn-sm mt-2">
+                                            {{ auth()->user()->isFollowingUser($rev->user) ? 'Unfollow' : 'Follow' }}
+                                        </button>
+                                    </form>
+                                @endif
                             @endauth
                         </div>
 

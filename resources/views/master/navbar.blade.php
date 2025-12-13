@@ -32,6 +32,7 @@
                             </a>
 
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('users.show', auth()->id()) }}">View Profile</a></li>
                                 <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                             </ul>
@@ -65,6 +66,7 @@
                         </a>
 
                         <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('users.show', auth()->id()) }}">View Profile</a></li>
                             <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
                             <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                         </ul>
