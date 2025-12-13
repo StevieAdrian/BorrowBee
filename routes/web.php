@@ -42,6 +42,7 @@ Route::middleware(['locale'])->group(function () {
         Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
         Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
         Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
+        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
         Route::get('/profile', [UserController::class, 'profile'])->name('profile');
         Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
         Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');

@@ -10,6 +10,18 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function show(User $user)
+    {
+        $authUser = auth()->user();
+
+        $isFollowing = false;
+        if ($authUser && $authUser->id !== $user->id) {
+            $isFollowing = $authUser->followingUsers()->where('followed_user_id', $user->id)->exists();
+        }
+
+        return view('view-profile', compact('user', 'isFollowing'));
+    }
+
     public function profile()
     {
         return view('profile', [
