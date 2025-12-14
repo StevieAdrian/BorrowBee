@@ -32,9 +32,9 @@
                             </a>
 
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('users.show', auth()->id()) }}">View Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                <li><a class="dropdown-item" href="{{ route('users.show', auth()->id()) }}">{{ __('navbar.view_profile') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">{{ __('navbar.edit_profile') }}</a></li>
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('navbar.logout') }}</a>
                             </ul>
                         </li>
 
@@ -42,15 +42,15 @@
 
                     @if (!Request::is('/'))
                         <li class="nav-item mx-2">
-                            <a class="nav-link" href="{{ route('home') }}">Home</a>
+                            <a class="nav-link" href="{{ route('home') }}">{{ __('navbar.home') }}</a>
                         </li>
 
                         <li class="nav-item mx-2">
-                            <a class="nav-link" href="{{ route('mybooks') }}">My Books</a>
+                            <a class="nav-link" href="{{ route('mybooks') }}">{{ __('navbar.my_books') }}</a>
                         </li>
 
                         <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{{ route('about') }}">{{ __('navbar.about') }}</a>
                         </li>
                     @endif
 
@@ -68,7 +68,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('users.show', auth()->id()) }}">View Profile</a></li>
                             <li><a class="dropdown-item" href="{{ route('profile') }}">Edit Profile</a></li>
-                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('navbar.logout') }}</a>
                         </ul>
                     </li>
 
@@ -80,7 +80,7 @@
 
                     @if (Request::is('/'))
                         <li class="nav-item ms-3">
-                            <a href="{{ route('register') }}" class="btn px-3" style="background-color: #FFE9A3; border:none; color:#000; font-weight:600;">Sign In</a>
+                            <a href="{{ route('register') }}" class="btn px-3" style="background-color: #FFE9A3; border:none; color:#000; font-weight:600;">{{ __('navbar.sign_in') }}</a>
                         </li>
                     @endif
                 @endguest

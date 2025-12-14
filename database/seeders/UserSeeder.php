@@ -37,14 +37,14 @@ class UserSeeder extends Seeder
                 'email' => 'tono@gmail.com',
                 'password' => bcrypt($passwordTono),
                 'avatar' => $avatars[array_rand($avatars)],
-                'role_id' => 2,
+                'role_id' => 1,
             ],
             [
                 'name' => 'Rendy',
                 'email' => 'rendy@gmail.com',
                 'password' => bcrypt($passwordRendy),
                 'avatar' => $avatars[array_rand($avatars)],
-                'role_id' => 2,
+                'role_id' => 1,
             ],
             [
                 'name' => 'Stevie',

@@ -13,20 +13,52 @@
             </div>
 
             <div class="col-md-4 mb-4 text-start">
-                <h5 class="fw-bold mb-3">USEFUL LINKS</h5>
+                <h5 class="fw-bold mb-3">{{ __('footer.links') }}</h5>
 
                 <ul class="list-unstyled">
-                    <li><a href="/" class="text-black text-decoration-none text-start">Home</a></li>
-                    <li><a href="/about" class="text-black text-decoration-none">About Us</a></li>
-                    <li><a href="/my-books" class="text-black text-decoration-none">My Books</a></li>
-                    <li><a href="/contact" class="text-black text-decoration-none">Contact Us</a></li>
+                    <li><a href="/" class="text-black text-decoration-none text-start">{{ __('footer.home') }}</a></li>
+                    <li><a href="/about" class="text-black text-decoration-none">{{ __('footer.my_books') }}</a></li>
+                    <li><a href="/my-books" class="text-black text-decoration-none">{{ __('footer.about') }}</a></li>
+                    <li><a href="/contact" class="text-black text-decoration-none">{{ __('footer.contact') }}</a></li>
                 </ul>
             </div>
 
-            <div class="col-md-4 mb-4 text-center text-md-start">
-                <h5 class="fw-bold mb-3">CONTACT US</h5>
-                <p class="mb-1">Address: 128 Maplewood Avenue, Suite 402, Seattle, WA 98121</p>
-                <p class="mb-0">Phone: +1 (206) 555-4827</p>
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold mb-3">{{ __('footer.contact_header') }}</h5>
+
+                <p class="mb-1">
+                    Address: 128 Maplewood Avenue, Suite 402, Seattle, WA 98121
+                </p>
+                <p class="mb-3">
+                    Phone: +1 (206) 555-4827
+                </p>
+                @auth
+                    <form action="{{ route('contact.send') }}" method="POST"
+                          onsubmit="disableContactButton(this)">
+                        @csrf
+
+                        <textarea
+                            name="message"
+                            class="form-control mb-2"
+                            rows="3"
+                            placeholder="Write your message..."
+                            required
+                        ></textarea>
+
+                        <button type="submit"
+                                class="btn btn-dark btn-sm w-100"
+                                id="contactSubmitBtn">
+                            Send Message
+                        </button>
+                    </form>
+                @else
+                    <small>
+                        <a href="{{ route('login') }}"
+                           class="text-black text-decoration-underline">
+                            Login to send us a message
+                        </a>
+                    </small>
+                @endauth
             </div>
         </div>
 
@@ -35,3 +67,11 @@
         </div>
     </div>
 </footer>
+
+<script>
+    function disableContactButton(form) {
+        const button = form.querySelector('button[type="submit"]');
+        button.disabled = true;
+        button.innerText = 'Sending...';
+    }
+</script>

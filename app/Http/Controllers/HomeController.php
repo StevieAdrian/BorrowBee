@@ -43,4 +43,9 @@ class HomeController extends Controller
 
         return view('book-detail', compact('book'));
     }
+
+    function about()
+    {
+        return view('about-us');
+    }
 }

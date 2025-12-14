@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowedBookController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransactionController;
@@ -47,7 +48,6 @@ Route::middleware(['locale'])->group(function () {
         Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
         Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');
         Route::get('/transactions/success', [TransactionController::class, 'success'])->name('transactions.success');
-    
     });
     
     Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
@@ -72,22 +72,33 @@ Route::middleware(['locale'])->group(function () {
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
     Route::post('/review/{id}/like', [ReviewController::class, 'toggleLike'])->middleware('auth')->name('review.like');
     Route::post('/review/{id}/dislike', [ReviewController::class, 'toggleDislike'])->middleware('auth')->name('review.dislike');
+    Route::get('/about', [HomeController::class, 'about'])->name('about');
 
     Route::middleware([IsLoginMiddleware::class])->group(function () {
-      Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
-      Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
-      Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
+        Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
+        Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
+        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+        Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
+        Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');
+        Route::get('/transactions/success', [TransactionController::class, 'success'])->name('transactions.success');
 
-      Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-      Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
+        Route::post('/borrow', [BorrowedBookController::class, 'borrow'])->name('borrow.book');
+        Route::post('/return', [BorrowedBookController::class, 'returnBook'])->name('return.book');
+        Route::get('/my-books', [BorrowedBookController::class, 'myBooks'])->middleware('auth')->name('mybooks');
 
-      Route::get('/privacy', [UserController::class, 'privacy'])->name('privacy');
-      Route::post('/privacy', [UserController::class, 'updatePrivacy'])->name('privacy.update');
+        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+        Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
 
-      Route::get('/buy/{book}', [BookController::class, 'createBuyView'])->name('transactions.create_view');
+        Route::get('/privacy', [UserController::class, 'privacy'])->name('privacy');
+        Route::post('/privacy', [UserController::class, 'updatePrivacy'])->name('privacy.update');
 
-      Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');
-      Route::get('/transactions/success', [TransactionController::class, 'success'])->name('transactions.success');
+        Route::get('/buy/{book}', [BookController::class, 'createBuyView'])->name('transactions.create_view');
+
+        Route::post('/transactions/create', [TransactionController::class, 'createTransaction'])->name('transactions.create');
+        Route::get('/transactions/success', [TransactionController::class, 'success'])->name('transactions.success');
+        Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
     });
 
   Route::get('/books/{id}', [HomeController::class, 'show'])->name('books.show');
@@ -111,6 +122,6 @@ Route::middleware(['locale'])->group(function () {
 Route::get('/localization/{loc}', [LocalizationController::class, 'localization'])->name('loc');
 
 Route::get('/books/{book}/access-pdf', [BookController::class, 'accessPdf'])
-     ->name('book.access_pdf');
+     ->name('book.access_pdf'); 
 
 Route::get('/books/{book}/view-only', [BookController::class, 'viewOnly'])->middleware('auth')->name('book.view_only');
