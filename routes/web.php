@@ -123,5 +123,6 @@ Route::get('/localization/{loc}', [LocalizationController::class, 'localization'
 
 Route::get('/books/{book}/access-pdf', [BookController::class, 'accessPdf'])
      ->name('book.access_pdf'); 
+Route::get('/books/{book}/download', [BookController::class, 'downloadPdf'])->name('book.download_pdf')->middleware('auth');
 
 Route::get('/books/{book}/view-only', [BookController::class, 'viewOnly'])->middleware('auth')->name('book.view_only');

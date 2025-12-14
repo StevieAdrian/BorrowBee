@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="{{ asset('css/pdfViewer.css') }}">
 </head>
 <body>
+    @if($isPaid)
+        <a href="{{ route('book.download_pdf', $book->id) }}" class="download-btn" title="Download PDF">
+            ⬇ Download PDF
+        </a>
+    @endif
+
     <div class="viewer-wrap">
         <div id="viewer-status" style="position:fixed;top:12px;right:12px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 10px;border-radius:6px;font-size:12px;z-index:9999">Loading...</div>
         <div class="book-viewport">

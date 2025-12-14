@@ -14,7 +14,7 @@
 
             <div class="d-grid gap-2">
                 @if($alreadyBought)
-                    <a href="{{ route('book.access_pdf', $book) }}" class="big-action-btn big-borrow">
+                    <a href="{{ route('book.access_pdf', $book) }}" target="_blank" class="big-action-btn big-borrow">
                         <iconify-icon icon="mdi:book-open-variant"></iconify-icon>
                         Read / Download PDF
                     </a>
