@@ -2,9 +2,9 @@
 
 
 (async function () {
-    // const url = "{{ $pdfUrl }}";
+    const url = "{{ $pdfUrl }}";
     // console.log("debug url: ", url);
-    const url = window.pdfUrl;
+    // const url = window.pdfUrl;
     const pdf = await pdfjsLib.getDocument(url).promise;
     const flipbookEl = document.getElementById('flipbook');
 
