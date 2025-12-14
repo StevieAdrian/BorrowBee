@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Rendy',
-                'email' => 'rendy@gmail.com',
+                'email' => 'rendyciangkuliah@gmail.com',
                 'password' => bcrypt($passwordRendy),
                 'avatar' => $avatars[array_rand($avatars)],
                 'role_id' => 1,
