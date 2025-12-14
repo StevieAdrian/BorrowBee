@@ -16,8 +16,10 @@
                 <div class="card shadow-sm h-100 border-0 admin-card p-3">
                     <div class="text-center py-3">
                         <i class="bi bi-book-fill admin-icon"></i>
-                        <h5 class="mt-3 admin-card-title">Manage Books</h5>
-                        <p class="text-muted small mb-0">Add, edit, and delete book's data.</p>
+                        <h5 class="mt-3 admin-card-title">{{ __('dashboard.manage_book') }}</h5>
+                        <p class="text-muted small mb-0">
+                            {{ __('dashboard.manage_book_desc') }}
+                        </p>
                     </div>
                 </div>
             </a>
@@ -28,8 +30,8 @@
                 <div class="card shadow-sm h-100 border-0 admin-card p-3">
                     <div class="text-center py-3">
                         <i class="bi bi-tags-fill admin-icon"></i>
-                        <h5 class="mt-3 admin-card-title">Manage Categories</h5>
-                        <p class="text-muted small mb-0">Organize book categories.</p>
+                        <h5 class="mt-3 admin-card-title">{{ __('dashboard.manage_category') }}</h5>
+                        <p class="text-muted small mb-0">{{ __('dashboard.manage_category_desc') }}</p>
                     </div>
                 </div>
             </a>
@@ -40,8 +42,8 @@
                 <div class="card shadow-sm h-100 border-0 admin-card p-3">
                     <div class="text-center py-3">
                         <i class="bi bi-person-lines-fill admin-icon"></i>
-                        <h5 class="mt-3 admin-card-title">Manage Authors</h5>
-                        <p class="text-muted small mb-0">Add or modify authors.</p>
+                        <h5 class="mt-3 admin-card-title">{{ __('dashboard.manage_author') }}</h5>
+                        <p class="text-muted small mb-0">{{ __('dashboard.manage_author_desc') }}</p>
                     </div>
                 </div>
             </a>
@@ -57,7 +59,7 @@
                             <i class="bi bi-book-fill"></i>
                         </div>
                         <div class="stat-number">{{ $stats['total_books'] }}</div>
-                        <p class="stat-label mb-0">Total Books</p>
+                        <p class="stat-label mb-0">{{ __('dashboard.total_books') }}</p>
                     </div>
                 </div>
             </div>
@@ -69,7 +71,7 @@
                             <i class="bi bi-people-fill"></i>
                         </div>
                         <div class="stat-number">{{ $stats['total_users'] }}</div>
-                        <p class="stat-label mb-0">Active Users</p>
+                        <p class="stat-label mb-0">{{ __('dashboard.active_users') }}</p>
                     </div>
                 </div>
             </div>
@@ -81,7 +83,7 @@
                             <i class="bi bi-box2-heart-fill"></i>
                         </div>
                         <div class="stat-number">{{ $stats['total_borrowed'] }}</div>
-                        <p class="stat-label mb-0">Currently Borrowed</p>
+                        <p class="stat-label mb-0">{{ __('dashboard.currently_borrowed') }}</p>
                     </div>
                 </div>
             </div>
@@ -93,7 +95,7 @@
                             <i class="bi bi-exclamation-triangle-fill"></i>
                         </div>
                         <div class="stat-number">{{ $stats['pending_returns'] }}</div>
-                        <p class="stat-label mb-0">Overdue Returns</p>
+                        <p class="stat-label mb-0">{{ __('dashboard.overdue_returns') }}</p>
                     </div>
                 </div>
             </div>
@@ -102,14 +104,14 @@
         <div class="row g-4 mb-5">
             <div class="col-lg-8">
                 <div class="chart-card">
-                    <h4 class="chart-title">Borrowing Trends (Last 7 Days)</h4>
+                    <h4 class="chart-title">{{ __('dashboard.borrowing_trends_last_7_days') }}</h4>
                     <canvas id="borrowingChart"></canvas>
                 </div>
             </div>
 
             <div class="col-lg-4">
                 <div class="chart-card">
-                    <h4 class="chart-title">Top Categories</h4>
+                    <h4 class="chart-title">{{ __('dashboard.top_categories') }}</h4>
                     <canvas id="categoriesChart"></canvas>
                 </div>
             </div>
@@ -118,19 +120,19 @@
         <div class="row g-4 mb-5">
             <div class="col-lg-4">
                 <div class="chart-card">
-                    <h4 class="chart-title">Books Availability</h4>
+                    <h4 class="chart-title">{{ __('dashboard.books_availability') }}</h4>
                     <canvas id="availabilityChart"></canvas>
                     <div class="row mt-4">
                         <div class="col-6">
                             <div class="availability-stat">
                                 <span class="number" style="color: #4CAF50;">{{ $booksAvailability['available'] }}</span>
-                                <span class="label">Available</span>
+                                <span class="label">{{ __('dashboard.available') }}</span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="availability-stat">
                                 <span class="number" style="color: #FF9800;">{{ $booksAvailability['borrowed'] }}</span>
-                                <span class="label">Borrowed</span>
+                                <span class="label">{{ __('dashboard.borrowed') }}</span>
                             </div>
                         </div>
                     </div>
@@ -139,7 +141,7 @@
 
             <div class="col-lg-8">
                 <div class="chart-card">
-                    <h4 class="chart-title">Recent Borrowings</h4>
+                    <h4 class="chart-title">{{ __('dashboard.recent_borrowings') }}</h4>
                     @forelse($recentBorrows as $borrow)
                         <div class="recent-borrow-item">
                             <div class="borrow-user">
@@ -149,9 +151,9 @@
                                 <i class="bi bi-book"></i> {{ $borrow->book->title }}
                             </div>
                             <div class="borrow-date">
-                                <i class="bi bi-calendar"></i> Borrowed: {{ $borrow->borrowed_at ? $borrow->borrowed_at->format('M d, Y H:i') : 'N/A' }}
+                                <i class="bi bi-calendar"></i> {{ __('dashboard.borrowed:') }} {{ $borrow->borrowed_at ? $borrow->borrowed_at->format('M d, Y H:i') : 'N/A' }}
                                 @if($borrow->due_date)
-                                    | Due: {{ $borrow->due_date->format('M d, Y') }}
+                                    | {{ __('dashboard.due') }} {{ $borrow->due_date->format('M d, Y') }}
                                 @endif
                             </div>
                         </div>
@@ -265,7 +267,8 @@
             new Chart(availabilityCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Available', 'Borrowed'],
+                    // labels: ['Available', 'Borrowed'],
+                    labels: ['{{ __("dashboard.available") }}', '{{ __("dashboard.borrowed") }}'],
                     datasets: [{
                         data: [{{ $booksAvailability['available'] }}, {{ $booksAvailability['borrowed'] }}],
                         backgroundColor: [

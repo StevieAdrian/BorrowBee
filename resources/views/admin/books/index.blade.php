@@ -5,14 +5,14 @@
 <div class="container mt-4">
 
     <div class="mb-4">
-        <h2 class="fw-bold text-center">Books</h2>
+        <h2 class="fw-bold text-center">{{ __('books.book') }}</h2>
     </div>
 
     <div class="bg-white p-4 rounded-4 shadow-sm">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold mb-0">Books</h4>
-            <a href="{{ route('books.create') }}" class="btn btn-primary">Add New Book</a>
+            <h4 class="fw-bold mb-0">{{ __('books.book') }}</h4>
+            <a href="{{ route('books.create') }}" class="btn btn-primary">{{ __('books.add_new') }}</a>
         </div>
 
         <div class="text-end mb-3 fw-medium">
@@ -24,13 +24,13 @@
                 <thead class="bg-light">
                     <tr>
                         <th>ID</th>
-                        <th>Cover</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Author</th>
-                        <th>Price</th>
-                        <th>Availability</th>
-                        <th class="text-center">Action</th>
+                        <th>{{ __('books.cover') }}</th>
+                        <th>{{ __('books.title') }}</th>
+                        <th>{{ __('books.category') }}</th>
+                        <th>{{ __('books.author') }}</th>
+                        <th>{{ __('books.price') }}</th>
+                        <th>{{ __('books.availability') }}</th>
+                        <th class="text-center">{{ __('books.action') }}</th>
                     </tr>
                 </thead>
 
@@ -43,7 +43,7 @@
                                 @if($book->cover_url)
                                     <img src="{{ $book->cover_url }}" width="60" height="80" class="rounded">
                                 @else
-                                    <span class="text-muted">No Image</span>
+                                    <span class="text-muted">{{ __('books.no_image') }}</span>
                                 @endif
                             </td>
 

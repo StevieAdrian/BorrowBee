@@ -30,24 +30,24 @@
                     <form action="{{ route('return.book') }}" method="POST">
                         @csrf
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
-                        <button type="submit" class="big-action-btn big-return">Return</button>
+                        <button type="submit" class="big-action-btn big-return">{{ __('detailBooks.return') }}</button>
                     </form>
                     @else
                     <form action="{{ route('borrow.book') }}" method="POST">
                         @csrf
                         <input type="hidden" name="book_id" value="{{ $book->id }}">
-                        <button type="submit" class="big-action-btn big-borrow">Borrow</button>
+                        <button type="submit" class="big-action-btn big-borrow">{{ __('detailBooks.borrow') }}</button>
                     </form>
                     
                     <a href="{{ route('transactions.create_view', $book->id) }}" class="big-action-btn big-buy">
-                        Buy
+                        {{ __('detailBooks.buy') }}
                     </a>
                 @endif
 
                 @auth
                     @if(Auth::user()->role_id === 2)
                         <a href="{{ route('books.edit', $book->id) }}" class="big-action-btn big-borrow">
-                            Edit Book
+                            {{ __('detailBooks.edit_book') }}
                         </a>
                     @endif
                 @endauth
@@ -59,7 +59,7 @@
                 <h1 class="fw-bold m-0">{{ $book->title }}</h1>
 
                 <a href="{{ route('home') }}" class="btn btn-secondary">
-                    Back
+                    {{ __('detailBooks.back') }}
                 </a>
             </div>
 
@@ -68,11 +68,11 @@
                     ★★★★★
                 </span>
                 <span class="fs-5 fw-semibold">{{ number_format($book->reviews_avg_rating ?? 0, 2) }}</span>
-                <small class="text-muted ms-2">({{ $book->reviews_count }} ratings)</small>
+                <small class="text-muted ms-2">({{ $book->reviews_count }} {{ __('detailBooks.ratings') }})</small>
             </div>
 
 
-            <p class="mb-3"><strong>Genres:</strong>
+            <p class="mb-3"><strong>{{ __('detailBooks.genres') }}</strong>
                 @foreach ($book->categories as $category)
                     <span class="badge bg-light text-dark border">{{ $category->name }}</span>
                 @endforeach
@@ -83,7 +83,7 @@
             </h4>
 
             <div class="mb-3 position-relative" id="desc-container">
-                <strong>Synopsis:</strong><br>
+                <strong>{{ __('detailBooks.synopsis') }}:</strong><br>
 
                 @php
                     $full = $book->description;
@@ -99,7 +99,7 @@
 
                 @if(strlen($full) > 300)
                     <a href="javascript:void(0)" id="toggle-desc" class="toggle-link d-inline-flex align-items-center mt-1">
-                        <span class="label-text">Show more</span>
+                        <span class="label-text"> {{ __('detailBooks.show_more') }}</span>
                         <span class="ms-1 arrow">&#9662;</span> 
                     </a>
 
@@ -108,14 +108,14 @@
 
             <hr>
             <p class="text-muted">
-                <strong>Pages:</strong> {{ $book->pages ?? 320 }}<br>
-                <strong>Published:</strong> {{ $book->published_at ?? 'Unknown' }}
+                <strong>{{ __('detailBooks.pages') }}</strong> {{ $book->pages ?? 320 }}<br>
+                <strong>{{ __('detailBooks.published') }}</strong> {{ $book->published_at ?? 'Unknown' }}
             </p>
 
             <hr class="my-4">
 
             <div class="author-section">
-                <div class="author-header">About the Author</div>
+                <div class="author-header">{{ __('detailBooks.about_author') }}</div>
 
                 @foreach ($book->authors as $author)
                     <div class="author-box mb-3 d-flex justify-content-between align-items-center">
@@ -129,12 +129,12 @@
                             <div class="author-info">
                                 <div class="name fw-bold">{{ $author->name }}</div>
                                 <div class="stats text-muted">
-                                    {{ $author->books_count ?? 0 }} books · 
-                                    {{ $author->followers_count ?? 0 }} followers
+                                    {{ $author->books_count ?? 0 }} {{ __('detailBooks.books') }} · 
+                                    {{ $author->followers_count ?? 0 }} {{ __('detailBooks.followers') }}
                                 </div>
 
                                 <a href="{{ route('author.profile', [$author->id, 'from' => $book->id]) }}" class="btn btn-outline-dark btn-sm mt-2 me-2">
-                                    View Profile
+                                    {{ __('detailBooks.view_profile') }}
                                 </a>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                                 <form action="{{ route('author.follow', $author->id) }}"  method="POST" class="follow-form" data-author-id="{{ $author->id }}">
                                     @csrf
                                     <button class="btn btn-dark btn-sm follow-btn">
-                                        {{ auth()->user()->isFollowing($author) ? 'Unfollow' : 'Follow' }}
+                                        {{ auth()->user()->isFollowing($author) ? __('detailBooks.unfollow') : __('detailBooks.follow') }}
                                     </button>
                                 </form>
                             @endauth
@@ -219,11 +219,12 @@
                             </a>
 
                             <div class="text-muted small">
-                                {{ $rev->user->reviews()->count() }} reviews<br>
-                                {{ $rev->user->followersCount() ?? 0 }} followers
+                                {{ $rev->user->reviews()->count() }} {{ __('detailBooks.review') }}<br>
+                                {{ $rev->user->followersCount() ?? 0 }} {{ __('detailBooks.followers') }}
                             </div>
 
                             @auth
+<<<<<<< Updated upstream
                                 @if(auth()->id() !== $rev->user->id)
                                     <form action="{{ route('user.follow', $rev->user->id) }}" method="POST">
                                         @csrf
@@ -232,6 +233,14 @@
                                         </button>
                                     </form>
                                 @endif
+=======
+                                <form action="{{ route('user.follow', $rev->user->id) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-dark btn-sm mt-2">
+                                        {{ auth()->user()->isFollowingUser($rev->user) ? __('detailBooks.unfollow') : __('detailBooks.follow') }}
+                                    </button>
+                                </form>
+>>>>>>> Stashed changes
                             @endauth
                         </div>
 
@@ -282,7 +291,7 @@
                             </form>
                             @if(strlen($text) > 300)
                                 <a href="javascript:void(0)" class="review-toggle toggle-link d-inline-flex align-items-center mt-1">
-                                    <span class="label-text">Show more</span>
+                                    <span class="label-text">{{ __('detailBooks.show_more') }}</span>
                                     <span class="ms-1 arrow">&#9662;</span>
                                 </a>
                             @endif

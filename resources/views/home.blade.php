@@ -23,7 +23,7 @@
     <form id="filterForm" method="GET" action="{{ route('home') }}" class="row g-3 align-items-center">
         <div class="col-md-3">
             <select name="category_id" class="form-select" onchange="document.getElementById('filterForm').submit()">
-                <option value="">Find Genre</option>
+                <option value="">{{ __('home.findGenre') }}</option>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
                         {{ $cat->name }}
@@ -34,18 +34,18 @@
 
         <div class="col-md-3">
             <select name="sort" class="form-select" onchange="document.getElementById('filterForm').submit()">
-                <option value="">Sort By Price</option>
-                <option value="price_asc" {{ request('sort')=='price_asc'?'selected':'' }}>Price: Low to High</option>
-                <option value="price_desc" {{ request('sort')=='price_desc'?'selected':'' }}>Price: High to Low</option>
+                <option value="">{{ __('home.sort') }}</option>
+                <option value="price_asc" {{ request('sort')=='price_asc'?'selected':'' }}>{{ __('home.sortLowToHigh') }}</option>
+                <option value="price_desc" {{ request('sort')=='price_desc'?'selected':'' }}>{{ __('home.sortHighToLow') }}</option>
             </select>
         </div>
 
         <div class="col-md-4">
-            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Search...">
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="{{ __('home.search_placeholder') }}">
         </div>
 
         <div class="col-md-2 d-grid">
-            <button class="btn btn-warning">Search</button>
+            <button class="btn btn-warning">{{ __('home.search') }}</button>
         </div>
     </form>
 </div>

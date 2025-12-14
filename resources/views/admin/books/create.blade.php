@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Add New Book</h2>
+    <h2>{{ __('books.add_new') }}</h2>
 
     <div class="add-book-card mt-3">
         <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Category</label>
+                        <label class="form-label fw-bold">{{ __('books.category') }}</label>
                         <select class="form-select select2" name="category_ids[]" multiple>
                             @foreach($categories as $c)
                                 <option value="{{ $c->id }}"
@@ -27,13 +27,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Title</label>
+                        <label class="form-label fw-bold">{{ __('books.title') }}</label>
                         <input type="text" name="title" class="form-control"
-                               placeholder="Title" value="{{ old('title') }}">
+                               placeholder="{{ __('books.title') }}" value="{{ old('title') }}">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Author</label>
+                        <label class="form-label fw-bold">{{ __('books.author') }}</label>
                         <select class="form-select select2" name="author_ids[]" multiple>
                             @foreach($authors as $a)
                                 <option value="{{ $a->id }}"
@@ -45,14 +45,14 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Price</label>
+                        <label class="form-label fw-bold">{{ __('books.price') }}</label>
                         <input type="number" name="price" class="form-control"
-                               placeholder="Price" value="{{ old('price') }}" min="0">
+                               placeholder="{{ __('books.price') }}" value="{{ old('price') }}" min="0">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Synopsis</label>
-                        <textarea name="description" class="form-control textarea-large" placeholder="Synopsis">{{ old('description') }}</textarea>
+                        <label class="form-label fw-bold">{{ __('books.synopsis') }}</label>
+                        <textarea name="description" class="form-control textarea-large" placeholder="{{ __('books.synopsis') }}">{{ old('description') }}</textarea>
                     </div>
 
                     <div class="mb-3">
@@ -61,8 +61,8 @@
                     </div>
 
                     <div class="d-flex gap-2 mt-3">
-                        <button class="btn btn-save px-4">Save</button>
-                        <a href="{{ route('books.index') }}" class="btn btn-discard px-4">Discard</a>
+                        <button class="btn btn-save px-4">{{ __('books.save') }}</button>
+                        <a href="{{ route('books.index') }}" class="btn btn-discard px-4">{{ __('books.discard') }}</a>
                     </div>
 
                 </div>
@@ -72,7 +72,7 @@
                         <img id="coverPreview" class="default-plus" src="{{ asset('assets/plus-icon.png') }}" alt="Preview">
                     </div>
 
-                        <p class="upload-warning">* Please upload the book cover image</p>
+                        <p class="upload-warning">{{ __('books.upload_warning') }}</p>
 
                     <input type="file" name="cover_image" id="coverInput" class="form-control mb-2" style="display: none;">
                     

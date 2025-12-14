@@ -3,8 +3,8 @@
 @section('content')
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Authors</h2>
-        <a href="{{ route('authors.create') }}" class="btn btn-primary">Create Author</a>
+        <h2>{{ __('authors.author') }}</h2>
+        <a href="{{ route('authors.create') }}" class="btn btn-primary">{{ __('authors.create') }}</a>
     </div>
 
     @if(session('success'))
@@ -15,8 +15,8 @@
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th width="200">Actions</th>
+                <th>{{ __('authors.name') }}</th>
+                <th width="200">{{ __('authors.actions') }}</th>
             </tr>
         </thead>
 

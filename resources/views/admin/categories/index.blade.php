@@ -3,8 +3,8 @@
 @section('content')
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Categories</h2>
-        <a href="{{ route('categories.create') }}" class="btn btn-primary">Create Category</a>
+        <h2>{{ __('category.title') }}</h2>
+        <a href="{{ route('categories.create') }}" class="btn btn-primary">{{ __('category.create') }}</a>
     </div>
 
     @if(session('success'))
@@ -15,8 +15,8 @@
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th width="200">Actions</th>
+                <th>{{ __('category.title') }}</th>
+                <th width="200">{{ __('category.actions') }}</th>
             </tr>
         </thead>
 
@@ -31,8 +31,8 @@
                         @csrf
                         @method('DELETE')
 
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this category?')">
-                            Delete
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('{{ __('category.delete_confirmation') }}')">
+                            {{ __('category.delete') }}
                         </button>
                     </form>
                 </td>
