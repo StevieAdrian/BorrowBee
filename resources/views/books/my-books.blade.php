@@ -23,7 +23,6 @@
                     <i class="fas fa-shopping-bag me-2"></i> Purchased Library
                 </button>
             </li>
-            {{-- REMOVED Bookshelves Tab --}}
         </ul>
     </div>
 

@@ -230,6 +230,7 @@ class BookController extends Controller
             'pdfUrl'    => $pdfUrl,
             'isPaid'    => $isPaid,
             'filePath'  => $filePath,
+            'book' => $book,
         ]);
     }
 
@@ -263,4 +264,27 @@ class BookController extends Controller
         return view('books.pdf-viewer', compact('pdfUrl', 'bookTitle'));
 
     }
+
+    public function downloadPdf(Book $book)
+    {
+        $user = auth()->user();
+
+        $hasPurchased = Transaction::where('user_id', $user->id)->where('book_id', $book->id)->where('status', 'PAID')->exists();
+
+        if (!$hasPurchased) {
+            abort(403, 'You are not allowed to download this book.');
+        }
+
+        $filePath = $book->pdf_file;
+
+        if (!Storage::disk('public')->exists($filePath)) {
+            abort(404, 'PDF not found.');
+        }
+
+        return response()->download(
+            storage_path('app/public/' . $filePath),
+            $book->title . '.pdf'
+        );
+    }
+
 }

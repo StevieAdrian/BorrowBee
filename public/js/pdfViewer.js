@@ -16,7 +16,7 @@
     //     console.log("debug page ", i);
     // }
     const maxHeight = Math.max(420, window.innerHeight - 180);
-    let scale = Math.min(2.0, maxHeight / firstViewport.height);
+    let scale = Math.min(2.0, maxHeight / firstViewport.height) * 4;
 
     const pageOrigWidth = firstViewport.width;
     const pageOrigHeight = firstViewport.height;
