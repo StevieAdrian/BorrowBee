@@ -8,7 +8,7 @@ return [
     'header_access'         => 'Inklusif',
     'paragraph_hero_start'  => 'BorrowBee adalah respons inovatif. Kami menawarkan layanan ganda: ',
     'ebook_services'        => 'pembelian dan penyewaan e-book digital',
-    'paragraph_hero_end'    => ', menjembatani kesenjangan akses literasi digital.',
+    'paragraph_hero_end'    => ' menjembatani kesenjangan akses literasi digital.',
     'illustration_caption_1'=> 'Akses Literasi Digital di Berbagai Perangkat',
 
     'mission_core_title'    => 'Misi Inti Kami',

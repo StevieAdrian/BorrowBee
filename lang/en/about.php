@@ -8,7 +8,7 @@ return [
     'header_access'         => 'Access',
     'paragraph_hero_start'  => 'BorrowBee is an innovative response. We offer a dual service: ',
     'ebook_services'        => 'digital e-book purchase and rental',
-    'paragraph_hero_end'    => ', bridging the gap in digital literacy access.',
+    'paragraph_hero_end'    => ' bridging the gap in digital literacy access.',
     'illustration_caption_1'=> 'Digital Literacy Access Across Various Devices',
 
     'mission_core_title'    => 'Our Core Mission',
