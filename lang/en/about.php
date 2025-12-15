@@ -1,9 +1,40 @@
 <?php
 
 return [
-    'title' => 'About BorrowBee',
+    'discover_journey'      => 'Discover Our Journey',
+    'header_dedicated_to'   => 'Dedicated to Digital',
+    'header_literacy'       => 'Literacy',
+    'header_inclusive'      => 'Inclusive',
+    'header_access'         => 'Access',
+    'paragraph_hero_start'  => 'BorrowBee is an innovative response. We offer a dual service: ',
+    'ebook_services'        => 'digital e-book purchase and rental',
+    'paragraph_hero_end'    => ', bridging the gap in digital literacy access.',
+    'illustration_caption_1'=> 'Digital Literacy Access Across Various Devices',
 
-    'paragraph_1' => 'BorrowBee is a digital platform established in 2025 with the mission of providing easy, fast, and affordable access to literacy through e-book borrowing and purchasing services. We believe that knowledge should not be limited by distance, time, or cost. By leveraging technology, BorrowBee serves as a modern solution to support learning needs in the digital era.',
+    'mission_core_title'    => 'Our Core Mission',
+    'mission_q_why'         => 'Why Borrow Bee Was Created?',
+    'mission_p1_start'      => 'Rapid technological advancements have shifted the paradigm of information access. E-books are increasingly favored due to their practicality and portability. However, existing platforms often focus exclusively on outright purchase mechanisms, lacking flexible rental options, which poses a barrier for students and the general public.',
+    'mission_p2_end'        => 'addresses this limitation. We ensure a digital literacy experience that is secure, efficient, and easily accessible, supporting a more inclusive and affordable educational ecosystem in Indonesia.',
+    'stat_active_readers'   => 'Active Readers',
+    'review_quote'          => '"Borrowing is easy and affordable! Great help for accessing college materials."',
+    'review_author'         => '- Keane, Student',
+    'stat_sdg_contributor'  => 'Quality Education Contributor',
 
-    'paragraph_2' => 'In line with Sustainable Development Goal (SDG) 4, Quality Education, BorrowBee is committed to contributing to the advancement of national intelligence by expanding access to high-quality reading resources. We support students, educators, and the general public in lifelong learning while fostering an inclusive and sustainable educational ecosystem.'
+    'values_title'          => 'Our Core Values',
+    'values_header'         => 'The Borrow Bee Difference',
+    'feature_1_title'       => 'Dual Service Model',
+    'feature_1_desc'        => 'Flexible E-book Rental & Purchase',
+    'feature_2_title'       => '24/7 Digital Access',
+    'feature_2_desc'        => 'Easy Access to Learning Resources Without Location Limits',
+    'feature_3_title'       => 'Organized Management',
+    'feature_3_desc'        => 'Authentication and Role Management System',
+    'feature_4_title'       => 'Responsive Interface',
+    'feature_4_desc'        => 'Efficient Literacy Experience on Various Devices',
+    'feature_5_title'       => 'SDG Alignment',
+    'feature_5_desc'        => 'Supporting Inclusive and Quality Education',
+    'illustration_caption_2'=> 'Authentication and Role Management System',
+
+    'team_title'            => 'The People Behind the Platform',
+    'team_header'           => 'Meet Our Dedicated Hive',
+    'team_description'      => 'The passionate team working to build a thriving digital literacy ecosystem.',
 ];

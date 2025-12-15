@@ -14,12 +14,13 @@
         
         <section class="row section-padding hero-section align-items-center pb-5">
             <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
-                <p class="text-muted small fw-semibold">Discover Our Journey</p>
+                <p class="text-muted small fw-semibold">{{ __('about.discover_journey') }}</p>
                 <h1 class="hero-title mb-4">
-                    Dedicated to Digital <span class="text-primary-bee">Literacy</span> & Inclusive <span class="text-primary-bee">Access</span>.
+                    {{ __('about.header_dedicated_to') }} <span class="text-primary-bee">{{ __('about.header_literacy') }}</span> & 
+                    {{ __('about.header_inclusive') }} <span class="text-primary-bee">{{ __('about.header_access') }}</span>.
                 </h1>
                 <p class="lead text-secondary">
-                    BorrowBee is an innovative response. We offer a dual service: <strong>digital e-book purchase and rental</strong>, bridging the gap in digital literacy access.
+                    {{ __('about.paragraph_hero_start') }} <strong>{{ __('about.ebook_services') }}</strong>, {{ __('about.paragraph_hero_end') }}
                 </p>
             </div>
             
@@ -29,7 +30,7 @@
                         <img src="{{ asset('assets/literacy-illustration.jpg') }}" alt="Digital Literacy Illustration" class="img-fluid image-original">
                         
                         <div class="image-overlay">
-                            <p class="overlay-text">Digital Literacy Access Across Various Devices</p>
+                            <p class="overlay-text">{{ __('about.illustration_caption_1') }}</p>
                         </div>
                     </div>
                 </div>
@@ -41,13 +42,13 @@
         <section class="row section-padding pt-0 align-items-center">
             
             <div class="col-lg-8 mb-4 mb-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-duration="1000">
-                <p class="text-primary-bee fw-semibold text-uppercase small mb-1">Our Core Mission</p>
-                <h2 class="mb-4 display-6 fw-bold">Why Borrow Bee Was Created?</h2>
+                <p class="text-primary-bee fw-semibold text-uppercase small mb-1">{{ __('about.mission_core_title') }}</p>
+                <h2 class="mb-4 display-6 fw-bold">{{ __('about.mission_q_why') }}</h2>
                 <p class="text-secondary fs-6">
-                    Rapid technological advancements have shifted the paradigm of information access. E-books are increasingly favored due to their practicality and portability. However, existing platforms often focus exclusively on outright purchase mechanisms, lacking flexible rental options, which poses a barrier for students and the general public.
+                    {{ __('about.mission_p1_start') }}
                 </p>
                 <p class="text-secondary fs-6">
-                    <strong>BorrowBee</strong> addresses this limitation. We ensure a digital literacy experience that is secure, efficient, and easily accessible, <strong>supporting a more inclusive and affordable educational ecosystem</strong> in Indonesia.
+                    <strong>BorrowBee</strong> {{ __('about.mission_p2_end') }}
                 </p>
             </div>
 
@@ -55,16 +56,16 @@
                 <div class="stats-card p-4 h-100 d-flex flex-column justify-content-between">
                     <div class="stat-item border-bottom pb-3 mb-3">
                         <span class="stat-number">200K+</span>
-                        <p class="stat-text text-muted fw-semibold mb-0">Active Readers</p>
+                        <p class="stat-text text-muted fw-semibold mb-0">{{ __('about.stat_active_readers') }}</p>
                     </div>
                     <div class="review-card p-3 my-3 shadow-sm">
                         <span class="text-primary-bee fs-5">★★★★★</span>
-                        <p class="text-dark mb-1 small fst-italic">"Borrowing is easy and affordable! Great help for accessing college materials."</p>
-                        <div class="text-muted small text-end fw-light">- Keane, Student</div>
+                        <p class="text-dark mb-1 small fst-italic">{{ __('about.review_quote') }}</p>
+                        <div class="text-muted small text-end fw-light">{{ __('about.review_author') }}</div>
                     </div>
                     <div class="stat-item border-top pt-3 mt-3">
                         <span class="stat-number">SDG 4</span>
-                        <p class="stat-text text-muted fw-semibold mb-0">Quality Education Contributor</p>
+                        <p class="stat-text text-muted fw-semibold mb-0">{{ __('about.stat_sdg_contributor') }}</p>
                     </div>
                 </div>
             </div>
@@ -74,28 +75,28 @@
 
         <section class="row section-padding pt-0 align-items-center flex-row-reverse">
             <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-left" data-aos-duration="1000">
-                <p class="text-primary-bee fw-semibold text-uppercase small mb-1">Our Core Values</p>
-                <h2 class="mb-4 display-6 fw-bold">The Borrow Bee Difference</h2>
+                <p class="text-primary-bee fw-semibold text-uppercase small mb-1">{{ __('about.values_title') }}</p>
+                <h2 class="mb-4 display-6 fw-bold">{{ __('about.values_header') }}</h2>
                 <ul class="features-list">
                     <li data-aos="fade-left" data-aos-delay="100">
                         <div class="feature-icon-wrapper"><span class="iconify text-primary-bee" data-icon="cil:dollar"></span></div>
-                        <strong>Dual Service Model:</strong> Flexible E-book Rental & Purchase.
+                        <strong>{{ __('about.feature_1_title') }}:</strong> {{ __('about.feature_1_desc') }}.
                     </li>
                     <li data-aos="fade-left" data-aos-delay="200">
                         <div class="feature-icon-wrapper"><span class="iconify text-primary-bee" data-icon="material-symbols:lock-open-right"></span></div>
-                        <strong>24/7 Digital Access:</strong> Easy Access to Learning Resources Without Location Limits.
+                        <strong>{{ __('about.feature_2_title') }}:</strong> {{ __('about.feature_2_desc') }}.
                     </li>
                     <li data-aos="fade-left" data-aos-delay="300">
                         <div class="feature-icon-wrapper"><span class="iconify text-primary-bee" data-icon="mdi:account-key"></span></div>
-                        <strong>Organized Management:</strong> Authentication and Role Management System.
+                        <strong>{{ __('about.feature_3_title') }}:</strong> {{ __('about.feature_3_desc') }}.
                     </li>
                     <li data-aos="fade-left" data-aos-delay="400">
                         <div class="feature-icon-wrapper"><span class="iconify text-primary-bee" data-icon="ic:baseline-devices"></span></div>
-                        <strong>Responsive Interface:</strong> Efficient Literacy Experience on Various Devices.
+                        <strong>{{ __('about.feature_4_title') }}:</strong> {{ __('about.feature_4_desc') }}.
                     </li>
                     <li data-aos="fade-left" data-aos-delay="500">
                         <div class="feature-icon-wrapper"><span class="iconify text-primary-bee" data-icon="material-symbols:school"></span></div>
-                        <strong>SDG Alignment:</strong> Supporting Inclusive and Quality Education.
+                        <strong>{{ __('about.feature_5_title') }}:</strong> {{ __('about.feature_5_desc') }}.
                     </li>
                 </ul>
             </div>
@@ -106,7 +107,7 @@
                         <img src="{{ asset('assets/feature-illustration.jpg') }}" alt="Feature Illustration" class="img-fluid image-original">
                         
                         <div class="image-overlay">
-                            <p class="overlay-text">Authentication and Role Management System</p>
+                            <p class="overlay-text">{{ __('about.illustration_caption_2') }}</p>
                         </div>
                     </div>
                 </div>
@@ -114,9 +115,9 @@
         </section>
 
         <section class="team-section section-padding">
-            <p class="text-primary-bee fw-semibold text-uppercase small mb-1">The People Behind the Platform</p>
-            <h2 class="mb-2 display-6 fw-bold">Meet Our Dedicated Hive</h2>
-            <p class="text-secondary mb-5">The passionate team working to build a thriving digital literacy ecosystem.</p>
+            <p class="text-primary-bee fw-semibold text-uppercase small mb-1">{{ __('about.team_title') }}</p>
+            <h2 class="mb-2 display-6 fw-bold">{{ __('about.team_header') }}</h2>
+            <p class="text-secondary mb-5">{{ __('about.team_description') }}</p>
 
             <div class="row justify-content-center">
                 
