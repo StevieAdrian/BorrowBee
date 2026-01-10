@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <div class="glass-box text-center">
-                    <h2 class="mb-4 text-white">Sign In</h2>
+                    <h2 class="mb-4 text-white">Sign Up</h2>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="mb-3 text-start">
@@ -32,7 +32,7 @@
                             </div>
                         @endif
 
-                        <button type="submit" class="btn btn-yellow w-50">Sign In</button>
+                        <button type="submit" class="btn btn-yellow w-50">Sign Up</button>
                         <p class="mt-3 text-white">
                             Don't have an account?
                             <a href="{{ route('register') }}" class="text-warning fw-bold text-decoration-none">Sign Up</a>
