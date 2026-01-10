@@ -1,9 +1,45 @@
 <?php
 
 return [
-    'title' => 'Tentang BorrowBee',
+    'discover_journey'      => 'Temukan Perjalanan Kami',
+    'header_dedicated_to'   => 'Didedikasikan untuk Literasi Digital',
+    'header_literacy'       => 'Literasi',
+    'header_inclusive'      => 'Akses',
+    'header_access'         => 'Inklusif',
+    'paragraph_hero_start'  => 'BorrowBee adalah respons inovatif. Kami menawarkan layanan ganda: ',
+    'ebook_services'        => 'pembelian dan penyewaan e-book digital',
+    'paragraph_hero_end'    => ' menjembatani kesenjangan akses literasi digital.',
+    'illustration_caption_1'=> 'Akses Literasi Digital di Berbagai Perangkat',
 
-    'paragraph_1' => 'BorrowBee adalah platform digital yang berdiri sejak tahun 2025 dengan tujuan menyediakan akses literasi yang mudah, cepat, dan terjangkau melalui layanan peminjaman dan pembelian e-book. Kami percaya bahwa pengetahuan tidak seharusnya dibatasi oleh jarak, waktu, maupun biaya. Dengan memanfaatkan teknologi, BorrowBee hadir sebagai solusi modern untuk mendukung kebutuhan belajar masyarakat di era digital.',
+    'mission_core_title'    => 'Misi Inti Kami',
+    'mission_q_why'         => 'Mengapa Borrow Bee Diciptakan?',
+    'mission_p1_start'      => 'Kemajuan teknologi yang pesat telah menggeser paradigma akses informasi. E-book semakin disukai karena kepraktisan dan portabilitasnya. Namun, platform yang ada seringkali hanya berfokus pada mekanisme pembelian langsung, kurangnya opsi sewa yang fleksibel, yang menjadi hambatan bagi pelajar dan masyarakat umum.',
+    'mission_p2_end'        => 'mengatasi keterbatasan ini. Kami memastikan pengalaman literasi digital yang aman, efisien, dan mudah diakses, mendukung ekosistem pendidikan yang lebih inklusif dan terjangkau di Indonesia.',
+    'stat_active_readers'   => 'Pembaca Aktif',
+    'review_quote'          => '"Peminjaman mudah dan terjangkau! Sangat membantu untuk mengakses materi kuliah."',
+    'review_author'         => '- Keane, Mahasiswa',
+    'stat_sdg_contributor'  => 'Kontributor Pendidikan Berkualitas',
 
-    'paragraph_2' => 'Sejalan dengan Sustainable Development Goals (SDGs) poin ke-4, yaitu Pendidikan Berkualitas, BorrowBee berkomitmen untuk turut memajukan kecerdasan bangsa dengan memperluas akses terhadap sumber bacaan berkualitas. Kami mendukung pelajar, mahasiswa, pendidik, dan masyarakat umum untuk terus belajar sepanjang hayat serta membangun ekosistem pendidikan yang inklusif dan berkelanjutan.'
+    'values_title'          => 'Nilai Inti Kami',
+    'values_header'         => 'Perbedaan Borrow Bee',
+    'feature_1_title'       => 'Model Layanan Ganda',
+    'feature_1_desc'        => 'Penyewaan & Pembelian E-book yang Fleksibel',
+    'feature_2_title'       => 'Akses Digital 24/7',
+    'feature_2_desc'        => 'Akses Mudah ke Sumber Belajar Tanpa Batasan Lokasi',
+    'feature_3_title'       => 'Manajemen Terorganisir',
+    'feature_3_desc'        => 'Sistem Otentikasi dan Manajemen Peran',
+    'feature_4_title'       => 'Antarmuka Responsif',
+    'feature_4_desc'        => 'Pengalaman Literasi Efisien di Berbagai Perangkat',
+    'feature_5_title'       => 'Keselarasan SDG',
+    'feature_5_desc'        => 'Mendukung Pendidikan Inklusif dan Berkualitas',
+    'illustration_caption_2'=> 'Sistem Otentikasi dan Manajemen Peran',
+
+    'team_title'            => 'Orang-orang di Balik Platform',
+    'team_header'           => 'Temui Tim Kami yang Berdedikasi',
+    'team_description'      => 'Tim penuh semangat yang bekerja membangun ekosistem literasi digital yang berkembang.',
+
+    'cta_header'            => 'Mulai Jelajahi E-book Digital Hari Ini!',
+    'cta_description'       => 'Dapatkan akses penuh atau sewa e-book favorit Anda dengan fleksibilitas dan kemudahan digital.',
+    'cta_btn_explore'       => 'Jelajahi E-book',
+    'cta_btn_contact'       => 'Hubungi Kami',
 ];
