@@ -39,10 +39,23 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'avatar' => 'nullable|image|max:2048',
+            'password' => [
+                'nullable',
+                'confirmed',
+                Password::min(12)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+            ]
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
+
+        if ($request->filled('password')) {
+        $user->password = bcrypt($request->password);
+    }
+
 
         if ($request->input('delete_avatar') === '1' && $user->avatar) {
             Storage::disk('public')->delete($user->avatar);
