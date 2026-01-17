@@ -18,6 +18,7 @@ return [
     'borrow' => 'Pinjam',
     'buy' => 'Beli',
     'edit_book' => 'Edit Buku',
-    'back' => 'Kembali'
+    'back' => 'Kembali',
+    'read_book_now' => 'Baca buku sekarang'
 
 ];

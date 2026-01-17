@@ -17,8 +17,8 @@
 
                 <ul class="list-unstyled">
                     <li><a href="/" class="text-black text-decoration-none text-start">{{ __('footer.home') }}</a></li>
-                    <li><a href="/about" class="text-black text-decoration-none">{{ __('footer.my_books') }}</a></li>
-                    <li><a href="/my-books" class="text-black text-decoration-none">{{ __('footer.about') }}</a></li>
+                    <li><a href="/my-books" class="text-black text-decoration-none">{{ __('footer.my_books') }}</a></li>
+                    <li><a href="/about" class="text-black text-decoration-none">{{ __('footer.about') }}</a></li>
                     <li><a href="/contact" class="text-black text-decoration-none">{{ __('footer.contact') }}</a></li>
                 </ul>
             </div>
